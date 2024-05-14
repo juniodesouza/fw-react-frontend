@@ -172,7 +172,7 @@ const CarroModel: ModelConfig = {
       // Ckeditor
       content: {
          label: 'Conteudo',
-         type: 'editor',
+         type: 'texteditor',
          edit: true,
          list: true,
          config: {
