@@ -3,6 +3,7 @@ import {
    Home,
    LineChart,
    ListFilter,
+   LucideMenu,
    MoreHorizontal,
    Package,
    Package2,
@@ -61,9 +62,9 @@ import {
 import { Outlet } from 'react-router-dom'
 import { ModeToggle } from './theme-toogle'
 
-function Navbar() {
+function Navbar({ handleSidebar }: { handleSidebar: () => void }) {
    return (
-      <header className="sticky top-0 z-30 flex h-14 justify-end items-center gap-4 border-b bg-background px-4  sm:border-0 sm:bg-muted sm:px-6">
+      <header className="sticky top-0 z-30 flex h-14 justify-end items-center gap-4 border-b bg-background px-4 sm:border-0 sm:bg-muted sm:px-4">
          <Sheet>
             <SheetTrigger asChild>
                <Button size="icon" variant="outline" className="sm:hidden">
@@ -118,6 +119,7 @@ function Navbar() {
                </nav>
             </SheetContent>
          </Sheet>
+         <LucideMenu className="cursor-pointer" onClick={handleSidebar} />
          <Breadcrumb className="hidden md:flex flex-1">
             <BreadcrumbList>
                <BreadcrumbItem>
