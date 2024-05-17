@@ -20,7 +20,7 @@ import {
    DialogTrigger,
 } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
-import { ModeToggle } from '@/components/core/theme-toogle'
+import { ModeToggle } from '@/components/layout/theme-toogle'
 import { ModelConfig } from './types'
 
 interface CrudListInput {
@@ -31,8 +31,8 @@ export function CrudList({ model }: CrudListInput) {
    console.log(model)
 
    return (
-      <div className="mx-auto max-w-4xl space-y-4 p-6">
-         <ModeToggle />
+      <div className="space-y-2 p-0">
+         {/* <ModeToggle /> */}
          <h1 className="text-3xl font-bold">Carros</h1>
          <div className="flex items-center justify-between">
             <form className="flex items-center gap-2">
@@ -61,7 +61,7 @@ export function CrudList({ model }: CrudListInput) {
 
                   <form
                      action=""
-                     className="items-center gap-3 space-y-6 text-right"
+                     className="items-center gap-3 space-y-0 text-right"
                   >
                      <div className="grid grid-cols-4 items-center gap-3 text-right">
                         <Label htmlFor="name">Nome</Label>

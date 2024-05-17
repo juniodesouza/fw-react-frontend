@@ -15,7 +15,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/custom/button'
 import { cn } from '@/lib/utils'
-// import { InputPassword } from '@/components/custom/password'
+import { InputPassword } from '@/components/custom/password'
 
 interface UserAuthFormProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -89,12 +89,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                                  Forgot password?
                               </Link>
                            </div>
-                           {/* <FormControl>
+                           <FormControl>
                               <InputPassword
                                  placeholder="********"
                                  {...field}
                               />
-                           </FormControl> */}
+                           </FormControl>
                            <FormMessage />
                         </FormItem>
                      )}

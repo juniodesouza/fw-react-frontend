@@ -16,7 +16,7 @@ const FwInputBoolean = ({ id, field, props }: FwInputBoolean) => {
 
    return (
       <FormControl>
-         <div>
+         <>
             <Switch
                id={id}
                checked={props.value}
@@ -27,7 +27,7 @@ const FwInputBoolean = ({ id, field, props }: FwInputBoolean) => {
             <Label htmlFor={id}>
                {props.value ? config.labelTrue : config.labelFalse}
             </Label>
-         </div>
+         </>
       </FormControl>
    )
 }
