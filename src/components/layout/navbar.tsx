@@ -1,4 +1,5 @@
 import {
+   CircleX,
    File,
    Home,
    LineChart,
@@ -13,6 +14,7 @@ import {
    Settings,
    ShoppingCart,
    Users2,
+   X,
 } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
@@ -43,7 +45,12 @@ import {
    DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import {
+   Sheet,
+   SheetClose,
+   SheetContent,
+   SheetTrigger,
+} from '@/components/ui/sheet'
 import {
    Table,
    TableBody,
@@ -61,66 +68,46 @@ import {
 } from '@/components/ui/tooltip'
 import { Outlet } from 'react-router-dom'
 import { ModeToggle } from './theme-toogle'
+import SidebarOpened from './sidebar/sidebar-opened'
+import { ScrollArea, ScrollBar } from '../ui/scroll-area'
 
 function Navbar({ handleSidebar }: { handleSidebar: () => void }) {
    return (
       <header className="sticky top-0 z-30 flex h-14 justify-end items-center gap-4 border-b bg-background px-4 sm:border-0 sm:bg-muted sm:px-4">
          <Sheet>
             <SheetTrigger asChild>
-               <Button size="icon" variant="outline" className="sm:hidden">
+               <div className="flex flex-1 sm:hidden">
+                  <LucideMenu className="cursor-pointer" />
+               </div>
+
+               {/* <Button size="icon" variant="outline" className="sm:hidden">
                   <PanelLeft className="h-5 w-5" />
                   <span className="sr-only">Toggle Menu</span>
-               </Button>
+               </Button> */}
             </SheetTrigger>
-            <SheetContent side="left" className="sm:max-w-xs">
-               <nav className="grid gap-6 text-lg font-medium">
-                  <a
-                     href="#"
-                     className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
-                  >
-                     <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
-                     <span className="sr-only">Acme Inc</span>
-                  </a>
-                  <a
-                     href="#"
-                     className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                  >
-                     <Home className="h-5 w-5" />
-                     Dashboard
-                  </a>
-                  <a
-                     href="#"
-                     className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                  >
-                     <ShoppingCart className="h-5 w-5" />
-                     Orders
-                  </a>
-                  <a
-                     href="#"
-                     className="flex items-center gap-4 px-2.5 text-foreground"
-                  >
-                     <Package className="h-5 w-5" />
-                     Products
-                  </a>
-                  <a
-                     href="#"
-                     className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                  >
-                     <Users2 className="h-5 w-5" />
-                     Customers
-                  </a>
-                  <a
-                     href="#"
-                     className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                  >
-                     <LineChart className="h-5 w-5" />
-                     Settings
-                  </a>
-               </nav>
+            <SheetContent
+               side="left"
+               className="w-2/3 bg-primary dark:bg-primary-foreground p-0 border-none"
+            >
+               <SheetClose asChild>
+                  <X
+                     className="cursor-pointer text-primary-foreground absolute right-3 top-3"
+                     size={30}
+                  />
+               </SheetClose>
+               <div className="px-4 py-6 mt-2 mb-2">
+                  <img src="/logo.svg"></img>
+               </div>
+               <ScrollArea>
+                  <SidebarOpened />
+                  <ScrollBar orientation="vertical" />
+               </ScrollArea>
             </SheetContent>
          </Sheet>
-         <LucideMenu className="cursor-pointer" onClick={handleSidebar} />
-         <Breadcrumb className="hidden md:flex flex-1">
+         <div className="hidden sm:flex flex-1">
+            <LucideMenu className="cursor-pointer" onClick={handleSidebar} />
+         </div>
+         {/* <Breadcrumb className="hidden md:flex flex-1">
             <BreadcrumbList>
                <BreadcrumbItem>
                   <BreadcrumbLink asChild>
@@ -138,7 +125,7 @@ function Navbar({ handleSidebar }: { handleSidebar: () => void }) {
                   <BreadcrumbPage>Cadastrar</BreadcrumbPage>
                </BreadcrumbItem>
             </BreadcrumbList>
-         </Breadcrumb>
+         </Breadcrumb> */}
          {/* <div className="relative ml-auto flex-1 md:grow-0">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
