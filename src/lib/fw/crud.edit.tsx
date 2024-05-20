@@ -1,4 +1,3 @@
-import { ModeToggle } from '@/components/layout/theme-toogle'
 import {
    BooleanConfig,
    FieldConfig,
@@ -19,7 +18,14 @@ import {
 import { Button } from '@/components/custom/button'
 import { useState } from 'react'
 import { CrudInput } from './crud.input'
-import { Card, CardContent } from '@/components/ui/card'
+import {
+   Card,
+   CardContent,
+   CardDescription,
+   CardHeader,
+   CardTitle,
+} from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 interface CrudEditInput {
    model: ModelConfig
@@ -128,11 +134,49 @@ export function CrudEdit({ model }: CrudEditInput) {
          <div>
             <h1 className="text-3xl font-bold">Carros</h1>
             <p className="text-sm text-muted-foreground italic">
-               O relatório contém informações detalhadas sobre os carros da
+               Esta tela contém informações detalhadas sobre os carros da
                empresa
             </p>
          </div>
+
+         <Tabs defaultValue="account" className="">
+            <TabsList className="w-full justify-start">
+               <TabsTrigger className="px-5" value="account">
+                  Informações
+               </TabsTrigger>
+               <TabsTrigger className="px-5" value="password">
+                  Revisões
+               </TabsTrigger>
+               <TabsTrigger className="px-5" value="cenarios">
+                  Cenários
+               </TabsTrigger>
+               <TabsTrigger className="px-5" value="account">
+                  Informações
+               </TabsTrigger>
+               <TabsTrigger className="px-5" value="password">
+                  Revisões
+               </TabsTrigger>
+               <TabsTrigger className="px-5" value="cenarios">
+                  Cenários
+               </TabsTrigger>
+            </TabsList>
+            <TabsContent value="account">
+               {/* Make changes to your account here. */}
+            </TabsContent>
+            <TabsContent value="password">
+               {/* Change your password here. */}
+            </TabsContent>
+         </Tabs>
+
          <Card className="rounded-sm">
+            {/* <CardHeader>
+               <CardTitle>
+                  <h1 className="text-3xl font-bold">Carros</h1>
+               </CardTitle>
+               <CardDescription>
+                  Manage your products and view their sales performance.
+               </CardDescription>
+            </CardHeader> */}
             <CardContent>
                <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)}>

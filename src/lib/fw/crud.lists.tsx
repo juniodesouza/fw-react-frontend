@@ -20,7 +20,6 @@ import {
    DialogTrigger,
 } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
-import { ModeToggle } from '@/components/layout/theme-toogle'
 import { ModelConfig } from './types'
 
 interface CrudListInput {
@@ -31,9 +30,15 @@ export function CrudList({ model }: CrudListInput) {
    console.log(model)
 
    return (
-      <div className="space-y-2 p-0">
-         {/* <ModeToggle /> */}
-         <h1 className="text-3xl font-bold">Carros</h1>
+      <div className="space-y-4 px-4 py-8">
+         <div>
+            <h1 className="text-3xl font-bold">Carros</h1>
+            <p className="text-sm text-muted-foreground italic">
+               Esta tela contém informações detalhadas sobre os carros da
+               empresa
+            </p>
+         </div>
+
          <div className="flex items-center justify-between">
             <form className="flex items-center gap-2">
                <Input name="id" placeholder="ID do produto" />

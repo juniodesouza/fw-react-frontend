@@ -3,7 +3,7 @@ import AppRouter from './routes'
 
 function App() {
    return (
-      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      <ThemeProvider defaultTheme="light" storageKey="ui-theme">
          <AppRouter />
       </ThemeProvider>
    )
