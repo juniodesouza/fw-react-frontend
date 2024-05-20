@@ -133,7 +133,7 @@ export function CrudEdit({ model }: CrudEditInput) {
       <div className="space-y-4 px-4 py-8">
          <div>
             <h1 className="text-3xl font-bold">Carros</h1>
-            <p className="text-sm text-muted-foreground italic">
+            <p className="text-sm italic text-muted-foreground">
                Esta tela contém informações detalhadas sobre os carros da
                empresa
             </p>

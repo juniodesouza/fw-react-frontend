@@ -44,8 +44,8 @@ function SidebarOpened({ closeSheetMenu }: ISidebarOpened) {
    }
 
    return (
-      <nav className="py-4 px-1">
-         <ul className="space-y-3 font-medium text-primary-foreground text-lg sm:text-base">
+      <nav className="px-1 py-4">
+         <ul className="space-y-3 text-lg font-medium text-primary-foreground sm:text-base">
             {menus.map((menu, index) => {
                if (menu.unique) {
                   return (
@@ -53,10 +53,10 @@ function SidebarOpened({ closeSheetMenu }: ISidebarOpened) {
                         <Link
                            onClick={handleMenuClick}
                            to={menu.url}
-                           className="flex items-center p-2 rounded-md sm:hover:text-primary sm:hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+                           className="group flex items-center rounded-md p-2 dark:text-white dark:hover:bg-gray-700 sm:hover:bg-gray-100 sm:hover:text-primary"
                         >
                            {menu.icon(iconSize)}
-                           <span className="flex-1 ms-3 whitespace-nowrap">
+                           <span className="ms-3 flex-1 whitespace-nowrap">
                               {menu.title}
                            </span>
                         </Link>
@@ -70,9 +70,9 @@ function SidebarOpened({ closeSheetMenu }: ISidebarOpened) {
                            onOpenChange={() => handleCollapsibleToggle(index)}
                         >
                            <CollapsibleTrigger asChild>
-                              <div className="flex cursor-pointer items-center p-2 rounded-md sm:hover:text-primary sm:hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                              <div className="group flex cursor-pointer items-center rounded-md p-2 dark:text-white dark:hover:bg-gray-700 sm:hover:bg-gray-100 sm:hover:text-primary">
                                  {menu.icon(iconSize)}
-                                 <span className="flex-1 ms-3 whitespace-nowrap">
+                                 <span className="ms-3 flex-1 whitespace-nowrap">
                                     {menu.title}
                                  </span>
                                  <span className="">
@@ -81,17 +81,17 @@ function SidebarOpened({ closeSheetMenu }: ISidebarOpened) {
                               </div>
                            </CollapsibleTrigger>
                            <CollapsibleContent>
-                              <ul className="font-normal text-sm bg-muted/10 dark:bg-muted-foreground/10 py-2">
+                              <ul className="bg-muted/10 py-2 text-sm font-normal dark:bg-muted-foreground/10">
                                  {menu.itens?.map((item, idx) => {
                                     return (
                                        <li key={idx}>
                                           <Link
                                              onClick={handleMenuClick}
                                              to={item.url}
-                                             className="flex p-2 items-center rounded-md sm:hover:text-primary sm:hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+                                             className="group flex items-center rounded-md p-2 dark:text-white dark:hover:bg-gray-700 sm:hover:bg-gray-100 sm:hover:text-primary"
                                           >
                                              <ChevronRight size={16} />
-                                             <span className="flex-1 ms-1 whitespace-nowrap">
+                                             <span className="ms-1 flex-1 whitespace-nowrap">
                                                 {item.title}
                                              </span>
                                           </Link>

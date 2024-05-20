@@ -1,4 +1,4 @@
-import './globals.scss'
+import './globals.css'
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'

@@ -10,7 +10,7 @@ interface INavbar {
 
 function Navbar({ handleSidebar }: INavbar) {
    return (
-      <header className="sticky top-0 z-30 flex h-14 justify-end items-center gap-4 border-b bg-background px-4 sm:border-0 sm:bg-muted sm:px-4">
+      <header className="sticky top-0 z-30 flex h-14 items-center justify-end gap-4 border-b bg-background px-4 sm:border-0 sm:bg-muted sm:px-4">
          <MobileMenu handleSidebar={handleSidebar} />
 
          <div className="relative ml-auto flex-1 md:grow-0">

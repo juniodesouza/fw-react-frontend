@@ -5,9 +5,9 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 function Sidebar({ isOpen }: { isOpen: boolean }) {
    return (
       <aside
-         className={` ${isOpen ? 'w-56' : 'w-16'} fixed inset-y-0 left-0 z-100 hidden sm:flex flex-col border-r bg-primary dark:bg-primary-foreground `}
+         className={` ${isOpen ? 'w-56' : 'w-16'} z-100 fixed inset-y-0 left-0 hidden flex-col border-r bg-primary dark:bg-primary-foreground sm:flex `}
       >
-         <div className="px-4 py-6 mt-2 mb-2">
+         <div className="mb-2 mt-2 px-4 py-6">
             <img src="/logo.svg"></img>
          </div>
          <ScrollArea>

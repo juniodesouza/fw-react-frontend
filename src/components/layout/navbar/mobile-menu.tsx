@@ -34,15 +34,15 @@ function MobileMenu({ handleSidebar }: IMobileMenu) {
             </SheetTrigger>
             <SheetContent
                side="left"
-               className="w-3/4 bg-primary dark:bg-primary-foreground p-0 border-none outline-none flex flex-col"
+               className="flex w-3/4 flex-col border-none bg-primary p-0 outline-none dark:bg-primary-foreground"
             >
                <SheetClose asChild>
                   <X
-                     className="cursor-pointer text-primary-foreground absolute right-3 top-3"
+                     className="absolute right-3 top-3 cursor-pointer text-primary-foreground"
                      size={30}
                   />
                </SheetClose>
-               <div className="px-4 py-6 mt-2 mb-2">
+               <div className="mb-2 mt-2 px-4 py-6">
                   <img src="/logo.svg"></img>
                </div>
                <ScrollArea className="flex-1">
