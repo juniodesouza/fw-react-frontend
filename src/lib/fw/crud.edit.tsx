@@ -15,7 +15,6 @@ import {
    FormLabel,
    FormMessage,
 } from '@/components/ui/form'
-import { Button } from '@/components/custom/button'
 import { useState } from 'react'
 import { CrudInput } from './crud.input'
 import {
@@ -25,13 +24,23 @@ import {
    CardHeader,
    CardTitle,
 } from '@/components/ui/card'
+import {
+   Breadcrumb,
+   BreadcrumbItem,
+   BreadcrumbLink,
+   BreadcrumbList,
+   BreadcrumbPage,
+   BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Link } from 'react-router-dom'
+import { Button } from '@/components/custom/button'
 
 interface CrudEditInput {
    model: ModelConfig
 }
 
-export function CrudEdit({ model }: CrudEditInput) {
+const FWCrudEdit = ({ model }: CrudEditInput) => {
    const [isLoading, setIsLoading] = useState(false)
 
    const fields = model.fields
@@ -130,16 +139,24 @@ export function CrudEdit({ model }: CrudEditInput) {
    }
 
    return (
-      <div className="space-y-4 px-4 py-8">
-         <div>
-            <h1 className="text-3xl font-bold">Carros</h1>
-            <p className="text-sm italic text-muted-foreground">
-               Esta tela contém informações detalhadas sobre os carros da
-               empresa
-            </p>
+      <div className="space-y-4">
+         <div className="flex items-end gap-2">
+            <div className="flex-1">
+               <h1 className="text-3xl font-bold">{model.label}</h1>
+               {/* <p className="text-sm italic text-muted-foreground">
+                  Esta tela contém informações detalhadas sobre os carros da
+                  empresa
+               </p> */}
+            </div>
+            <Button variant="outline" size="sm" className="px-4">
+               Exportar
+            </Button>
+            {/* <Button size="sm" className="px-4">
+               Novo registro
+            </Button> */}
          </div>
 
-         <Tabs defaultValue="account" className="">
+         {/* <Tabs defaultValue="account" className="">
             <TabsList className="w-full justify-start">
                <TabsTrigger className="px-5" value="account">
                   Informações
@@ -161,12 +178,10 @@ export function CrudEdit({ model }: CrudEditInput) {
                </TabsTrigger>
             </TabsList>
             <TabsContent value="account">
-               {/* Make changes to your account here. */}
             </TabsContent>
             <TabsContent value="password">
-               {/* Change your password here. */}
             </TabsContent>
-         </Tabs>
+         </Tabs> */}
 
          <Card className="rounded-sm">
             {/* <CardHeader>
@@ -204,6 +219,14 @@ export function CrudEdit({ model }: CrudEditInput) {
                            )
                         })}
                         <div className="col-span-12 space-y-1">
+                           <Button
+                              variant="outline"
+                              size="sm"
+                              className="mr-3 px-4"
+                           >
+                              Voltar
+                           </Button>
+
                            <Button className="mt-2" loading={isLoading}>
                               Salvar
                            </Button>
@@ -643,3 +666,5 @@ export function CrudEdit({ model }: CrudEditInput) {
       </div>
    )
 }
+
+export { FWCrudEdit }

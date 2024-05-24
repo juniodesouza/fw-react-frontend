@@ -15,7 +15,7 @@ export default function Layout() {
          <Sidebar isOpen={isOpen} />
          <div className={`flex flex-col ${isOpen ? 'sm:pl-56' : 'sm:pl-16'}`}>
             <Navbar handleSidebar={handleSidebar} />
-            <main className="grid flex-1 p-4 sm:px-4 sm:py-0 md:gap-8">
+            <main className="px-5 py-2">
                <Outlet />
             </main>
          </div>

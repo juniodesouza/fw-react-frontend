@@ -11,7 +11,7 @@ const CarroModel: ModelConfig = {
    fields: {
       // Number
       id: {
-         label: 'Id',
+         label: 'Código',
          type: 'number',
          edit: false,
          list: true,

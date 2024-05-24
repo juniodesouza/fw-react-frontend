@@ -16,8 +16,8 @@ type FieldTypes =
 
 interface FieldConfig {
    require: boolean
-   sizeEdit?: FieldSizes
-   sizeFilter?: FieldSizes
+   size?: FieldSizes
+   filter?: boolean
    disabled?: boolean
    placeholder?: string
 }
@@ -176,7 +176,7 @@ interface Settings {
    delete: boolean
 }
 
-interface Fields {
+export interface Fields {
    [k: string]: Field
 }
 

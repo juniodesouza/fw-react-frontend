@@ -1,6 +1,9 @@
-import { CrudList } from '@/lib/fw/crud.lists'
+import { FWCrudList } from '@/lib/fw/crud.lists'
 import CarroModel from './cars.model'
 
 export function CarsList() {
-   return <CrudList model={CarroModel} />
+   const description =
+      'Esta tela contém informações detalhadas sobre os carros da empresa'
+
+   return <FWCrudList model={CarroModel} description={description} />
 }
