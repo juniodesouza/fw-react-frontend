@@ -12,34 +12,41 @@ import {
    DoubleArrowRightIcon,
 } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
-import { FWDataTableControl } from './data-table'
 
 export interface FWDataTablePaginationInput {
-   table: FWDataTableControl
+   currentPage: number
+   pageSize: number
+   totalRecords: number
+   totalPages: number
+   onPageChange: (value: number) => void
+   onPageSizeChange: (value: number) => void
 }
 
-const FWDataTablePagination = ({ table }: FWDataTablePaginationInput) => {
+const FWDataTablePagination = ({
+   currentPage,
+   pageSize,
+   totalRecords,
+   totalPages,
+   onPageChange,
+   onPageSizeChange,
+}: FWDataTablePaginationInput) => {
    return (
       <div className="flex w-full items-center justify-between px-1">
          <div className="flex-1 text-sm text-muted-foreground">
-            {table.getState().pagination.totalRecords} Registros
+            {totalRecords} Registros
          </div>
 
          <div className="flex items-center space-x-8 lg:space-x-10">
             <div className="flex items-center space-x-1">
                <p className="text-sm font-medium">Registros por Página:</p>
                <Select
-                  value={table.getState().pagination.pageSize.toString()}
+                  value={pageSize.toString()}
                   onValueChange={(value) => {
-                     table.setPageSize(Number(value))
+                     onPageSizeChange(Number(value))
                   }}
                >
                   <SelectTrigger className="h-8 w-[70px]">
-                     <SelectValue
-                        placeholder={table
-                           .getState()
-                           .pagination.pageSize.toString()}
-                     />
+                     <SelectValue placeholder={pageSize.toString()} />
                   </SelectTrigger>
                   <SelectContent side="top">
                      {[15, 30, 45, 60].map((pageSize) => (
@@ -54,8 +61,8 @@ const FWDataTablePagination = ({ table }: FWDataTablePaginationInput) => {
                <Button
                   variant="outline"
                   className="hidden h-8 w-8 p-0 lg:flex"
-                  onClick={() => table.setPageIndex(0)}
-                  disabled={!table.getCanPreviousPage()}
+                  onClick={() => onPageChange(1)}
+                  disabled={currentPage === 1}
                >
                   <span className="sr-only">Primeira página</span>
                   <DoubleArrowLeftIcon className="h-4 w-4" />
@@ -63,23 +70,22 @@ const FWDataTablePagination = ({ table }: FWDataTablePaginationInput) => {
                <Button
                   variant="outline"
                   className="h-8 w-8 p-0"
-                  onClick={() => table.previousPage()}
-                  disabled={!table.getCanPreviousPage()}
+                  onClick={() => onPageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
                >
                   <span className="sr-only">Página anterior</span>
                   <ChevronLeftIcon className="h-4 w-4" />
                </Button>
 
                <div className="text-sm font-medium">
-                  Página {table.getState().pagination.currentPage} de{' '}
-                  {table.getState().pagination.totalPages}
+                  Página {currentPage} de {totalPages}
                </div>
 
                <Button
                   variant="outline"
                   className="h-8 w-8 p-0"
-                  onClick={() => table.nextPage()}
-                  disabled={!table.getCanNextPage()}
+                  onClick={() => onPageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
                >
                   <span className="sr-only">Próxima página</span>
                   <ChevronRightIcon className="h-4 w-4" />
@@ -87,10 +93,8 @@ const FWDataTablePagination = ({ table }: FWDataTablePaginationInput) => {
                <Button
                   variant="outline"
                   className="hidden h-8 w-8 p-0 lg:flex"
-                  onClick={() =>
-                     table.setPageIndex(table.getState().pagination.totalPages)
-                  }
-                  disabled={!table.getCanNextPage()}
+                  onClick={() => onPageChange(totalPages)}
+                  disabled={currentPage === totalPages}
                >
                   <span className="sr-only">Última página</span>
                   <DoubleArrowRightIcon className="h-4 w-4" />

@@ -1,13 +1,10 @@
 import { Eye, ListFilter, Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { FWDataTableControl } from './data-table'
 
-export interface FWDataTableToobarInput {
-   table: FWDataTableControl
-}
+export interface FWDataTableToobarInput {}
 
-const FWDataTableToobar = ({ table }: FWDataTableToobarInput) => {
+const FWDataTableToobar = ({}: FWDataTableToobarInput) => {
    return (
       <div className="flex gap-1.5">
          <div className="relative flex-1">
