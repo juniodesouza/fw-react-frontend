@@ -12,28 +12,36 @@ import {
    DoubleArrowRightIcon,
 } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
+import { FWDataTableContext, useFWDataTable } from './data-table'
+import { useContext } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
 
-export interface FWDataTablePaginationInput {
-   currentPage: number
-   pageSize: number
-   totalRecords: number
-   totalPages: number
-   onPageChange: (value: number) => void
-   onPageSizeChange: (value: number) => void
-}
+const FWDataTablePagination = () => {
+   const context = useContext(FWDataTableContext)
 
-const FWDataTablePagination = ({
-   currentPage,
-   pageSize,
-   totalRecords,
-   totalPages,
-   onPageChange,
-   onPageSizeChange,
-}: FWDataTablePaginationInput) => {
+   if (context === null)
+      throw new Error(
+         '`FWDataTablePagination` must be used within `FWDataTable`'
+      )
+
+   const {
+      isLoading,
+      totalRecords,
+      pageSize,
+      currentPage,
+      totalPages,
+      setCurrentPage,
+      setPageSize,
+   } = useFWDataTable()
+
    return (
       <div className="flex w-full items-center justify-between px-1">
          <div className="flex-1 text-sm text-muted-foreground">
-            {totalRecords} Registros
+            {isLoading ? (
+               <Skeleton className="h-4 w-[95px]" />
+            ) : (
+               <>{totalRecords} Registros</>
+            )}
          </div>
 
          <div className="flex items-center space-x-8 lg:space-x-10">
@@ -41,8 +49,9 @@ const FWDataTablePagination = ({
                <p className="text-sm font-medium">Registros por Página:</p>
                <Select
                   value={pageSize.toString()}
+                  disabled={isLoading}
                   onValueChange={(value) => {
-                     onPageSizeChange(Number(value))
+                     setPageSize(Number(value))
                   }}
                >
                   <SelectTrigger className="h-8 w-[70px]">
@@ -61,8 +70,8 @@ const FWDataTablePagination = ({
                <Button
                   variant="outline"
                   className="hidden h-8 w-8 p-0 lg:flex"
-                  onClick={() => onPageChange(1)}
-                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(1)}
+                  disabled={isLoading || currentPage === 1}
                >
                   <span className="sr-only">Primeira página</span>
                   <DoubleArrowLeftIcon className="h-4 w-4" />
@@ -70,22 +79,26 @@ const FWDataTablePagination = ({
                <Button
                   variant="outline"
                   className="h-8 w-8 p-0"
-                  onClick={() => onPageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                  disabled={isLoading || currentPage === 1}
                >
                   <span className="sr-only">Página anterior</span>
                   <ChevronLeftIcon className="h-4 w-4" />
                </Button>
 
-               <div className="text-sm font-medium">
-                  Página {currentPage} de {totalPages}
-               </div>
+               {isLoading ? (
+                  <Skeleton className="h-4 w-[95px]" />
+               ) : (
+                  <div className="text-sm font-medium">
+                     Página {currentPage} de {totalPages}
+                  </div>
+               )}
 
                <Button
                   variant="outline"
                   className="h-8 w-8 p-0"
-                  onClick={() => onPageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  disabled={isLoading || currentPage === totalPages}
                >
                   <span className="sr-only">Próxima página</span>
                   <ChevronRightIcon className="h-4 w-4" />
@@ -93,8 +106,8 @@ const FWDataTablePagination = ({
                <Button
                   variant="outline"
                   className="hidden h-8 w-8 p-0 lg:flex"
-                  onClick={() => onPageChange(totalPages)}
-                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(totalPages)}
+                  disabled={isLoading || currentPage === totalPages}
                >
                   <span className="sr-only">Última página</span>
                   <DoubleArrowRightIcon className="h-4 w-4" />

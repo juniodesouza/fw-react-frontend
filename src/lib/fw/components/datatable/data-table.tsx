@@ -1,72 +1,65 @@
-import { useCallback, useEffect, useState } from 'react'
+import {
+   createContext,
+   useCallback,
+   useContext,
+   useEffect,
+   useState,
+} from 'react'
 import { Fields } from '../../types'
 import FWDataTableContent from './content'
 import FWDataTablePagination from './pagination'
 import FWDataTableToobar from './toolbar'
 
+type FWTableData = Array<{ [key: string]: any }>
+
+type FWDataTableState = {
+   isLoading: boolean
+   data: FWTableData
+   search: string
+   currentPage: number
+   pageSize: number
+   totalRecords: number
+   totalPages: number
+   refresh?: () => void
+   setSearch: (search: string) => void
+   setCurrentPage: (page: number) => void
+   setPageSize: (size: number) => void
+}
+
+const FWDataTableContext = createContext<FWDataTableState>({
+   isLoading: true,
+   data: [],
+   search: '',
+   currentPage: 0,
+   pageSize: 0,
+   totalRecords: 0,
+   totalPages: 0,
+   refresh: () => null,
+   setSearch: () => null,
+   setCurrentPage: () => null,
+   setPageSize: () => null,
+})
+
+type onRefreshTable = (table: FWDataTableState) => void
+
 interface FWDataTableInput {
    fields: Fields
    route: string
+   onRefreshTable?: onRefreshTable
 }
 
-type TableData = Array<{ [key: string]: any }>
+const FWDataTable = ({ fields, onRefreshTable }: FWDataTableInput) => {
+   const [isLoading, setLoading] = useState<boolean>(false)
+   const [data, setData] = useState<FWTableData>([])
+   const [search, setSearch] = useState<string>('')
+   const [currentPage, setCurrentPage] = useState<number>(1)
+   const [pageSize, setPageSize] = useState<number>(15)
+   const [totalRecords, setTotalRecords] = useState<number>(0)
+   const [totalPages, setTotalPages] = useState<number>(0)
 
-interface FWPaginatorState {
-   totalRecords: number
-   pageSize: number
-   currentPage: number
-   totalPages: number
-}
-
-// interface FWSortState {
-//    field: string
-//    by: 'asc' | 'desc'
-// }
-
-// interface FWDataTableState {
-//    data: TableData | []
-//    filter: {
-//       query: string
-//    }
-//    order: {
-//       field: string
-//       by: 'asc' | 'desc'
-//    }
-//    pagination: {
-//       totalRecords: number
-//       pageSize: number
-//       currentPage: number
-//       totalPages: number
-//    }
-// }
-
-const FWDataTable = ({ fields }: FWDataTableInput) => {
-   const [data, setData] = useState<TableData>([])
-
-   const [pagination, setPagination] = useState<FWPaginatorState>({
-      totalRecords: 0,
-      pageSize: 15,
-      currentPage: 1,
-      totalPages: 1,
-   })
-
-   const handlePageChange = (value: number) => {
-      setPagination((prevData) => ({
-         ...prevData,
-         currentPage: value,
-      }))
-   }
-
-   const handlePageSizeChange = (value: number) => {
-      setPagination((prevData) => ({
-         ...prevData,
-         currentPage: 1,
-         pageSize: value,
-      }))
-   }
-
-   const fetchData = useCallback(
-      async (page: number, size: number) => {
+   const fetchData = useCallback(async (page: number, size: number) => {
+      setLoading(true)
+      setTimeout(() => {
          const response = Array.from({ length: size }).map(() => {
             const row: { [key: string]: any } = {}
             Object.keys(fields).forEach((key) => {
@@ -74,49 +67,63 @@ const FWDataTable = ({ fields }: FWDataTableInput) => {
             })
             return row
          })
-
          setData(response)
-         setPagination((prevData) => ({
-            ...prevData,
-            totalRecords: parseInt((Math.random() * 10000).toFixed(2)),
-            totalPages: Math.ceil(1000 / prevData.pageSize),
-         }))
-      },
-      [fields]
-   )
+         setTotalRecords(parseInt((Math.random() * 10000).toFixed(2)))
+         setTotalPages(Math.ceil(1000 / size))
+         setLoading(false)
+      }, 300)
+   }, [])
+
+   const refresh = () => {
+      fetchData(currentPage, pageSize)
+   }
 
    useEffect(() => {
-      fetchData(pagination.currentPage, pagination.pageSize)
-   }, [pagination.currentPage, pagination.pageSize, fetchData])
+      if (typeof onRefreshTable === 'function') {
+         onRefreshTable(table)
+      }
+   }, [data])
 
-   // const [state, setState] = useState<FWDataTableState>({
-   //    data: [],
-   //    order: {
-   //       field: 'id',
-   //       by: 'desc',
-   //    },
-   //    pagination: {
-   //       totalRecords: 0,
-   //       pageSize: 15,
-   //       currentPage: 1,
-   //       totalPages: 1,
-   //    },
-   //    filter: {
-   //       query: '',
-   //    },
-   // })
+   useEffect(() => {
+      setCurrentPage(1)
+   }, [search])
+
+   useEffect(() => {
+      refresh()
+   }, [currentPage, pageSize, search])
+
+   const table: FWDataTableState = {
+      isLoading,
+      data,
+      search,
+      currentPage,
+      pageSize,
+      totalRecords,
+      totalPages,
+      refresh,
+      setSearch,
+      setCurrentPage,
+      setPageSize,
+   }
 
    return (
-      <>
+      <FWDataTableContext.Provider value={table}>
          <FWDataTableToobar />
-         <FWDataTableContent fields={fields} data={data} />
-         <FWDataTablePagination
-            onPageChange={handlePageChange}
-            onPageSizeChange={handlePageSizeChange}
-            {...pagination}
-         />
-      </>
+         <FWDataTableContent fields={fields} />
+         <FWDataTablePagination />
+      </FWDataTableContext.Provider>
    )
 }
 
+const useFWDataTable = () => {
+   const context = useContext(FWDataTableContext)
+
+   if (context === undefined)
+      throw new Error('useFWDataTable must be used within FWDataTable')
+
+   return context
+}
+
 export default FWDataTable
+export { useFWDataTable, FWDataTableContext }
+export type { onRefreshTable }

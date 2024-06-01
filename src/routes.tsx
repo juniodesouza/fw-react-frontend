@@ -5,28 +5,34 @@ import {
    RouterProvider,
 } from 'react-router-dom'
 import { Login } from './pages/auth/login'
-import { Home } from './pages/home/home'
-import { CarsList } from './pages/cars/cars.lists'
-import { CarsEdit } from './pages/cars/cars.edit'
 import Layout from './components/layout/layout'
 
+type IModule<T> = {
+   [filename: string]: {
+      default: T
+   }
+}
+
 function AppRouter() {
+   const routesModules: IModule<RouteObject[]> = import.meta.glob(
+      '@/pages/**/routes.{ts,tsx}',
+      {
+         eager: true,
+      }
+   )
+
+   const routesApp = Object.values(routesModules).reduce(
+      (acc, module) => [...acc, ...module.default],
+      [] as RouteObject[]
+   )
+
    const routes: RouteObject[] = [
       { path: '/', element: <Navigate to="login" replace={true} /> },
       { path: '/login', element: <Login /> },
       {
          path: '/app',
          element: <Layout />,
-         children: [
-            {
-               path: '',
-               element: <Navigate to="home" replace={true} />,
-            },
-            { path: 'home', element: <Home /> },
-            { path: 'cars', element: <CarsList /> },
-            { path: 'cars/create', element: <CarsEdit /> },
-            { path: 'cars/:id/edit', element: <CarsEdit /> },
-         ],
+         children: routesApp,
       },
    ]
 

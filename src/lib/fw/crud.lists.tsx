@@ -3,18 +3,15 @@ import { ModelConfig } from './types'
 import { Card, CardContent } from '@/components/ui/card'
 import { Link } from 'react-router-dom'
 import FWBreadcrumb from '@/components/layout/breadcrumb/breadcrumb'
-import FWDataTable from './components/datatable/data-table'
+import FWDataTable, { onRefreshTable } from './components/datatable/data-table'
+
 interface CrudListInput {
    model: ModelConfig
    description?: string
-   onBeforeList?: () => void
-   onAfterList?: () => void
-   onBeforeFilter?: () => void
-   onAfterFilter?: () => void
-   tableRowActions?: (actions: []) => void
+   onRefreshTable?: onRefreshTable
 }
 
-const FWCrudList = ({ model, description }: CrudListInput) => {
+const FWCrudList = ({ model, description, onRefreshTable }: CrudListInput) => {
    const fields = model.fields
 
    return (
@@ -35,7 +32,11 @@ const FWCrudList = ({ model, description }: CrudListInput) => {
          </div>
          <Card className="mt-0 rounded-sm">
             <CardContent className="pt-6">
-               <FWDataTable fields={fields} route={model.route} />
+               <FWDataTable
+                  fields={fields}
+                  route={model.route}
+                  onRefreshTable={onRefreshTable}
+               />
             </CardContent>
          </Card>
       </div>
@@ -43,3 +44,4 @@ const FWCrudList = ({ model, description }: CrudListInput) => {
 }
 
 export { FWCrudList }
+export type { onRefreshTable }
