@@ -1,9 +1,9 @@
+import Environment from '@/config/env'
 import axios, { AxiosInstance } from 'axios'
 
 function getAPIClient(): AxiosInstance {
    const api = axios.create({
-      // baseURL: process.env.PUBLIC_API_URL,
-      baseURL: 'https://jsonplaceholder.org',
+      baseURL: Environment.VITE_API_URL,
    })
 
    return api

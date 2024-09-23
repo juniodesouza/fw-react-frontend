@@ -14,13 +14,13 @@ import {
 } from '@/components/ui/popover'
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons'
 import { ControllerRenderProps } from 'react-hook-form'
-import { Field } from '../../types'
+import { FieldAutocomplete } from '../../types'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/custom/button'
 
 interface FwInputAutoComplete {
    id: string
-   field: Field
+   field: FieldAutocomplete
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
@@ -41,13 +41,13 @@ const FwInputAutoComplete = ({ id, field, props }: FwInputAutoComplete) => {
    return (
       <Popover>
          <PopoverTrigger asChild>
-            <FormControl>
+            <FormControl className="w-full">
                <Button
                   id={id}
                   variant="outline"
                   role="combobox"
                   className={cn(
-                     'w-[200px] justify-between',
+                     'justify-between',
                      !props.value && 'text-muted-foreground'
                   )}
                >
@@ -60,7 +60,7 @@ const FwInputAutoComplete = ({ id, field, props }: FwInputAutoComplete) => {
                </Button>
             </FormControl>
          </PopoverTrigger>
-         <PopoverContent className="w-[200px] p-0">
+         <PopoverContent className="w-auto p-0">
             <Command>
                <CommandInput
                   placeholder="Search framework..."

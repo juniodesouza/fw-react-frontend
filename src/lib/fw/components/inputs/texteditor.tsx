@@ -1,11 +1,11 @@
 import { FormControl } from '@/components/ui/form'
 import { ControllerRenderProps } from 'react-hook-form'
-import { Field, TextareaConfig } from '../../types'
+import { FieldTextEditor, TextareaConfig } from '../../types'
 import { Textarea } from '@/components/ui/textarea'
 
 interface FwInputTextEditor {
    id: string
-   field: Field
+   field: FieldTextEditor
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
@@ -13,7 +13,7 @@ const FwInputTextEditor = ({ id, field, props }: FwInputTextEditor) => {
    const config = field.config as TextareaConfig
 
    return (
-      <FormControl>
+      <FormControl className="w-full">
          <Textarea
             id={id}
             placeholder={field.config.placeholder}

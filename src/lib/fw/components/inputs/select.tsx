@@ -7,11 +7,11 @@ import {
    SelectValue,
 } from '@/components/ui/select'
 import { ControllerRenderProps } from 'react-hook-form'
-import { Field, SelectConfig } from '../../types'
+import { FieldSelect, SelectConfig } from '../../types'
 
 interface FwInputSelect {
    id: string
-   field: Field
+   field: FieldSelect
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
@@ -19,15 +19,15 @@ const FwInputSelect = ({ id, field, props }: FwInputSelect) => {
    const config = field.config as SelectConfig
 
    return (
-      <FormControl>
+      <FormControl className="w-full">
          <Select
             name={id}
             onValueChange={props.onChange}
             defaultValue={props.value}
             disabled={field.config.disabled}
          >
-            <SelectTrigger className="w-[280px]">
-               <SelectValue placeholder="Selecione" />
+            <SelectTrigger>
+               <SelectValue placeholder={config.placeholder || 'Selecione'} />
             </SelectTrigger>
             <SelectContent>
                {config.itens.map(function (item, idx) {

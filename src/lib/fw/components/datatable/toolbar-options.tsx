@@ -27,7 +27,7 @@ const FWDataTableToobarOptions = () => {
    return (
       <Dialog>
          <DialogTrigger asChild>
-            <Button variant="ghost" className="px-2">
+            <Button variant="ghost">
                <span>Exibir</span>
                <Eye className="ml-1" size={14} />
             </Button>

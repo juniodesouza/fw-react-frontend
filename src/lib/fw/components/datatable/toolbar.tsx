@@ -11,7 +11,7 @@ const FWDataTableToobar = () => {
       throw new Error('`FWDataTableToobar` must be used within `FWDataTable`')
 
    return (
-      <div className="flex gap-1.5">
+      <div className="flex items-center">
          <FWDataTableToobarSearch />
          <FWDataTableToobarFilter />
          <FWDataTableToobarOptions />

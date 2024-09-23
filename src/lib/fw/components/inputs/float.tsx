@@ -1,17 +1,17 @@
 import { FormControl } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { ControllerRenderProps } from 'react-hook-form'
-import { Field } from '../../types'
+import { FieldFloat } from '../../types'
 
 interface FwInputFloat {
    id: string
-   field: Field
+   field: FieldFloat
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
 const FwInputFloat = ({ id, field, props }: FwInputFloat) => {
    return (
-      <FormControl>
+      <FormControl className="w-full">
          <Input
             id={id}
             type="number"

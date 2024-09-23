@@ -10,12 +10,12 @@ import { Calendar } from '@/components/ui/calendar'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { ControllerRenderProps } from 'react-hook-form'
-import { Field } from '../../types'
+import { FieldDate } from '../../types'
 import { cn } from '@/lib/utils'
 
 interface FwInputDate {
    id: string
-   field: Field
+   field: FieldDate
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
@@ -23,13 +23,13 @@ const FwInputDate = ({ id, field, props }: FwInputDate) => {
    return (
       <Popover>
          <PopoverTrigger asChild>
-            <FormControl>
+            <FormControl className="w-full">
                <Button
                   id={id}
                   disabled={field.config.disabled}
                   variant={'outline'}
                   className={cn(
-                     'w-[240px] pl-3 text-left font-normal',
+                     'pl-3 text-left font-normal',
                      !props.value && 'text-muted-foreground'
                   )}
                >

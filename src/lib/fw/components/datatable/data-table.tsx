@@ -71,7 +71,7 @@ const FWDataTable = ({ fields, onRefreshTable }: FWDataTableInput) => {
          setTotalRecords(parseInt((Math.random() * 10000).toFixed(2)))
          setTotalPages(Math.ceil(1000 / size))
          setLoading(false)
-      }, 300)
+      }, 100)
    }, [])
 
    const refresh = () => {

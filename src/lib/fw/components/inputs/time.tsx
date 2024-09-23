@@ -1,17 +1,17 @@
 import { FormControl } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { ControllerRenderProps } from 'react-hook-form'
-import { Field } from '../../types'
+import { FieldTime } from '../../types'
 
 interface FwInputTime {
    id: string
-   field: Field
+   field: FieldTime
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
 const FwInputTime = ({ id, field, props }: FwInputTime) => {
    return (
-      <FormControl>
+      <FormControl className="w-full">
          <Input
             id={id}
             type="text"

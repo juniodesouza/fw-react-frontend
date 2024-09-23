@@ -41,25 +41,26 @@ const FWDataTableToobarSearch = () => {
 
    return (
       <Form {...form}>
-         <form className="flex-1" onSubmit={form.handleSubmit(onSubmit)}>
+         <form
+            className="relative flex-1"
+            onSubmit={form.handleSubmit(onSubmit)}
+         >
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <FormField
                control={form.control}
                name="search"
                render={({ field }) => (
-                  <FormItem className="relative">
+                  <FormItem>
                      <FormControl>
-                        <>
-                           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                           <Input
-                              {...field}
-                              autoComplete="off"
-                              enterKeyHint="search"
-                              type="text"
-                              placeholder="Pesquisar..."
-                              className="w-full rounded-lg bg-background pl-8 md:w-[300px] lg:w-[400px]"
-                              onKeyDown={handleKeyDown}
-                           />
-                        </>
+                        <Input
+                           {...field}
+                           autoComplete="off"
+                           enterKeyHint="search"
+                           type="text"
+                           placeholder="Pesquisar..."
+                           className="w-full rounded-lg bg-background pl-8 md:w-[300px] lg:w-[400px]"
+                           onKeyDown={handleKeyDown}
+                        />
                      </FormControl>
                   </FormItem>
                )}

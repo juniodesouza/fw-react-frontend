@@ -12,7 +12,7 @@ const FWDataTableToobarFilter = () => {
       )
 
    return (
-      <Button variant="ghost" className="px-2">
+      <Button variant="ghost">
          <span>Filtrar</span>
          <ListFilter className="ml-1" size={14} />
       </Button>

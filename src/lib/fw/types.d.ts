@@ -15,58 +15,82 @@ type FieldTypes =
    | 'file'
 
 interface FieldConfig {
-   require: boolean
    size?: FieldSizes
    filter?: boolean
    disabled?: boolean
-   placeholder?: string
 }
 
 interface NumberConfig extends FieldConfig {
+   require: boolean
+   placeholder?: string
    min?: number
    max?: number
 }
 
 interface StringConfig extends FieldConfig {
+   require: boolean
+   placeholder?: string
    cnpj?: boolean
    cpf?: boolean
    email?: boolean
+   phone?: boolean
+   cep?: boolean
 }
 
-interface PasswordConfig extends FieldConfig {}
+interface PasswordConfig extends FieldConfig {
+   require: boolean
+   placeholder?: string
+}
 
 interface AutocompleteConfig extends FieldConfig {
+   require: boolean
+   placeholder?: string
    route: string
    dependencies?: string[]
 }
 
 interface SelectConfig extends FieldConfig {
+   require: boolean
+   placeholder?: string
    itens: { value: string; label: string }[]
 }
 
 interface BooleanConfig extends FieldConfig {
-   labelTrue: string
-   labelFalse: string
+   labelTrue?: string
+   labelFalse?: string
    default: boolean
 }
 
-interface DateConfig extends FieldConfig {}
+interface DateConfig extends FieldConfig {
+   require: boolean
+   placeholder?: string
+}
 
 interface FloatConfig extends FieldConfig {
+   require: boolean
+   placeholder?: string
    currency?: boolean
 }
 
 interface TextareaConfig extends FieldConfig {
+   require: boolean
+   placeholder?: string
    rows?: number
 }
 
 interface TextEditorConfig extends FieldConfig {
+   require: boolean
+   placeholder?: string
    rows?: number
 }
 
-interface TimeConfig extends FieldConfig {}
+interface TimeConfig extends FieldConfig {
+   require: boolean
+   placeholder?: string
+}
 
 interface FileConfig extends FieldConfig {
+   require: boolean
    container: string
    preview?: boolean
    dragAndDrop?: boolean

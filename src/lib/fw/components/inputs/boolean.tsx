@@ -3,11 +3,11 @@ import { ControllerRenderProps } from 'react-hook-form'
 import { Switch } from '@/components/ui/switch'
 
 import { Label } from '@/components/ui/label'
-import { BooleanConfig, Field } from '../../types'
+import { BooleanConfig, FieldBoolean } from '../../types'
 
 interface FwInputBoolean {
    id: string
-   field: Field
+   field: FieldBoolean
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
@@ -15,19 +15,21 @@ const FwInputBoolean = ({ id, field, props }: FwInputBoolean) => {
    const config = field.config as BooleanConfig
 
    return (
-      <FormControl>
-         <>
+      <FormControl className="w-full">
+         <div className="flex items-center gap-1 pt-2">
             <Switch
                id={id}
                checked={props.value}
                onCheckedChange={props.onChange}
-               disabled={field.config.disabled}
+               disabled={!!field.config.disabled}
                {...props}
             />{' '}
-            <Label htmlFor={id}>
-               {props.value ? config.labelTrue : config.labelFalse}
-            </Label>
-         </>
+            {config.labelTrue && config.labelFalse && (
+               <Label htmlFor={id} className="cursor-pointer">
+                  {props.value ? config.labelTrue : config.labelFalse}
+               </Label>
+            )}
+         </div>
       </FormControl>
    )
 }

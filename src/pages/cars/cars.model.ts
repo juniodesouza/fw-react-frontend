@@ -11,12 +11,15 @@ const CarroModel: ModelConfig = {
    fields: {
       // Number
       id: {
-         label: 'Código',
+         label: 'Number',
          type: 'number',
-         edit: false,
+         edit: true,
          list: true,
          config: {
+            size: 2,
             require: true,
+            max: 10,
+            min: 5,
             placeholder: 'Informe o id',
             // disabled: true,
          },
@@ -24,36 +27,106 @@ const CarroModel: ModelConfig = {
 
       // String
       name: {
-         label: 'Nome',
+         label: 'String',
          type: 'string',
          edit: true,
          list: true,
          config: {
+            size: 4,
             require: true,
             placeholder: 'Informe o nome completo',
          },
       },
 
-      // Autocomplete
-      brand: {
-         label: 'Marca',
-         type: 'autocomplete',
+      // E-mail
+      email: {
+         label: 'E-mail',
+         type: 'string',
          edit: true,
          list: true,
          config: {
+            size: 5,
             require: true,
-            route: 'brands',
-            dependencies: ['name'],
+            email: true,
+            placeholder: 'Informe o e-mail',
+         },
+      },
+
+      // Boolean
+      status: {
+         label: 'Boolean',
+         type: 'boolean',
+         edit: true,
+         list: true,
+         config: {
+            size: 1,
+            // labelTrue: 'Ativo',
+            // labelFalse: 'Inativo',
+            default: true,
+         },
+      },
+
+      // CNPJ
+      cnpj: {
+         label: 'CNPJ',
+         type: 'string',
+         edit: true,
+         list: true,
+         config: {
+            size: 3,
+            require: true,
+            cnpj: true,
+         },
+      },
+
+      // CPF
+      cpf: {
+         label: 'CPF',
+         type: 'string',
+         edit: true,
+         list: true,
+         config: {
+            size: 3,
+            require: true,
+            cpf: true,
+         },
+      },
+
+      // Phone
+      phone: {
+         label: 'Phone',
+         type: 'string',
+         edit: true,
+         list: true,
+         config: {
+            size: 3,
+            require: true,
+            phone: true,
+         },
+      },
+
+      // Cep
+      cep: {
+         label: 'Cep',
+         type: 'string',
+         edit: true,
+         list: true,
+         config: {
+            size: 3,
+            require: true,
+            cep: true,
          },
       },
 
       // List
       month: {
-         label: 'Mês',
+         label: 'List',
          type: 'select',
          edit: true,
          list: true,
          config: {
+            placeholder: 'Selecione o mês',
+            size: 4,
             require: true,
             itens: [
                { value: '1', label: 'Janeiro' },
@@ -72,149 +145,123 @@ const CarroModel: ModelConfig = {
          },
       },
 
-      // Boolean
-      status: {
-         label: 'Status',
-         type: 'boolean',
-         edit: true,
-         list: true,
-         config: {
-            require: true,
-            labelTrue: 'Ativo',
-            labelFalse: 'Inativo',
-            default: true,
-         },
-      },
-
       // Date
       saleDate: {
-         label: 'Data de Venda',
+         label: 'Date',
          type: 'date',
          edit: true,
          list: true,
          config: {
+            size: 2,
             // disabled: true,
-            // placeholder: 'Informe a data de venda',
+            placeholder: 'Informe a data',
             require: true,
          },
       },
 
-      // Currency
+      // Time
+      time: {
+         label: 'Time',
+         type: 'time',
+         edit: true,
+         list: true,
+         config: {
+            size: 2,
+            require: true,
+         },
+      },
+
+      // Float
       size: {
-         label: 'Tamanho',
+         label: 'Float',
          type: 'float',
          edit: true,
          list: true,
          config: {
+            size: 2,
             require: true,
          },
       },
 
       // Currency
       price: {
-         label: 'Preço',
+         label: 'Currency',
          type: 'float',
          edit: true,
          list: true,
          config: {
+            size: 2,
             require: true,
             currency: true,
          },
       },
 
-      // CNPJ
-      cnpj: {
-         label: 'CNPJ',
-         type: 'string',
-         edit: true,
-         list: true,
-         config: {
-            require: true,
-            cnpj: true,
-         },
-      },
-
-      // CPF
-      cpf: {
-         label: 'CPF',
-         type: 'string',
-         edit: true,
-         list: true,
-         config: {
-            require: true,
-            cpf: true,
-         },
-      },
-
-      // E-mail
-      email: {
-         label: 'E-mail',
-         type: 'string',
-         edit: true,
-         list: true,
-         config: {
-            require: true,
-            email: true,
-         },
-      },
-
-      // Textarea
-      description: {
-         label: 'Descrição',
-         type: 'textarea',
-         edit: true,
-         list: true,
-         config: {
-            require: true,
-         },
-      },
-
-      // Ckeditor
-      content: {
-         label: 'Conteudo',
-         type: 'texteditor',
-         edit: true,
-         list: true,
-         config: {
-            require: true,
-         },
-      },
-
       // Password
       password: {
-         label: 'Senha',
+         label: 'Password',
          type: 'password',
          edit: true,
          list: true,
          config: {
+            size: 3,
             require: true,
             placeholder: 'Informe a senha',
          },
       },
 
-      // Time
-      time: {
-         label: 'Horário',
-         type: 'time',
+      // Autocomplete
+      brand: {
+         label: 'Autocomplete',
+         type: 'autocomplete',
          edit: true,
          list: true,
          config: {
+            size: 4,
             require: true,
+            route: 'brands',
+            dependencies: ['name'],
          },
       },
 
       // Upload
       file: {
-         label: 'Arquivo',
+         label: 'Upload',
          type: 'file',
          edit: true,
          list: true,
          config: {
+            size: 5,
             require: true,
             container: 'anexos',
             preview: true,
             dragAndDrop: true,
             acceptedFiles: ['image/*'],
+         },
+      },
+
+      // Textarea
+      description: {
+         label: 'Textarea',
+         type: 'textarea',
+         edit: true,
+         list: true,
+         config: {
+            size: 12,
+            require: true,
+            placeholder: 'Informe a descrição',
+         },
+      },
+
+      // Texteditor
+      content: {
+         label: 'Texteditor',
+         type: 'texteditor',
+         edit: true,
+         list: true,
+         config: {
+            size: 12,
+            require: true,
+            placeholder: 'Informe o conteúdo',
          },
       },
    },
