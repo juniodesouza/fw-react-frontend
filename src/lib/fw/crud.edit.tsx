@@ -115,6 +115,36 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
                })
             }
 
+            if (config.cnpj) {
+               zobject[key] = zobject[key].regex(
+                  /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
+                  {
+                     message: 'CNPJ inválido',
+                  }
+               )
+            }
+
+            if (config.cpf) {
+               zobject[key] = zobject[key].regex(
+                  /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
+                  {
+                     message: 'CPF inválido',
+                  }
+               )
+            }
+
+            if (config.phone) {
+               zobject[key] = zobject[key].regex(/^\(\d{2}\) \d{4,5}-\d{4}$/, {
+                  message: 'Telefone inválido',
+               })
+            }
+
+            if (config.cep) {
+               zobject[key] = zobject[key].regex(/^\d{5}-\d{3}$/, {
+                  message: 'CEP inválido',
+               })
+            }
+
             break
          }
 

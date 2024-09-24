@@ -118,6 +118,19 @@ const CarroModel: ModelConfig = {
          },
       },
 
+      // CustomMask
+      placa: {
+         label: 'CustomMask',
+         type: 'string',
+         edit: true,
+         list: true,
+         config: {
+            size: 12,
+            require: true,
+            customMask: 'aaa-9999',
+         },
+      },
+
       // List
       month: {
          label: 'List',

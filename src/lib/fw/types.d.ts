@@ -35,6 +35,7 @@ interface StringConfig extends FieldConfig {
    email?: boolean
    phone?: boolean
    cep?: boolean
+   customMask?: string
 }
 
 interface PasswordConfig extends FieldConfig {
