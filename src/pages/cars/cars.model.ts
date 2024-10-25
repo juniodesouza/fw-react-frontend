@@ -120,7 +120,7 @@ const CarroModel: ModelConfig = {
 
       // CustomMask
       placa: {
-         label: 'CustomMask',
+         label: 'Placa - CustomMask',
          type: 'string',
          edit: true,
          list: true,

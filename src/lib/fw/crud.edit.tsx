@@ -3,6 +3,7 @@ import {
    Fields,
    ModelConfig,
    NumberConfig,
+   SelectConfig,
    StringConfig,
 } from './types'
 import { useForm } from 'react-hook-form'
@@ -99,9 +100,7 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
          case 'string': {
             const config = fields[key].config as StringConfig
 
-            zobject[key] = z.string({
-               required_error: requiredMessage,
-            })
+            zobject[key] = z.string()
 
             if (config.require) {
                zobject[key] = zobject[key].min(1, {
@@ -158,6 +157,20 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
                   required_error: requiredMessage,
                })
                .default(config.default)
+            break
+         }
+
+         case 'select': {
+            const config = fields[key].config as SelectConfig
+
+            zobject[key] = z.string()
+
+            if (config.require) {
+               zobject[key] = zobject[key].min(1, {
+                  message: requiredMessage,
+               })
+            }
+
             break
          }
 
