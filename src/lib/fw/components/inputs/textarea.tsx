@@ -1,28 +1,28 @@
-import { FormControl } from '@/components/ui/form'
 import { ControllerRenderProps } from 'react-hook-form'
 import { FieldTextarea, TextareaConfig } from '../../types'
-import { Textarea } from '@/components/ui/textarea'
+import { InputTextarea } from 'primereact/inputtextarea'
 
 interface FwInputTextarea {
    id: string
    field: FieldTextarea
+   invalid: boolean
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputTextarea = ({ id, field, props }: FwInputTextarea) => {
+const FwInputTextarea = ({ id, field, invalid, props }: FwInputTextarea) => {
    const config = field.config as TextareaConfig
 
    return (
-      <FormControl className="w-full">
-         <Textarea
-            id={id}
-            placeholder={field.config.placeholder}
-            disabled={field.config.disabled}
-            rows={config.rows ? config.rows : 2}
-            className="resize-none"
-            {...props}
-         />
-      </FormControl>
+      <InputTextarea
+         invalid={invalid}
+         id={id}
+         placeholder={config.placeholder}
+         disabled={config.disabled}
+         rows={config.rows ? config.rows : 2}
+         autoResize
+         className="w-full"
+         {...props}
+      />
    )
 }
 

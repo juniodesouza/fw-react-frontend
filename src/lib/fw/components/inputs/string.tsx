@@ -1,114 +1,63 @@
-import { FormControl } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { ControllerRenderProps } from 'react-hook-form'
-import { FieldString } from '../../types'
-import InputMask from '@mona-health/react-input-mask'
+import { FieldString, StringConfig } from '../../types'
+import { InputText } from 'primereact/inputtext'
+import { InputMask } from 'primereact/inputmask'
 
 interface FwInputString {
    id: string
    field: FieldString
+   invalid: boolean
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const masks = {
-   cnpj: '99.999.999/9999-99',
-   cpf: '999.999.999-99',
-   phone: '(99) 9999-9999',
-   cep: '99999-999',
+const getMask = (config: StringConfig) => {
+   if (config.cnpj) {
+      return '99.999.999/9999-99'
+   } else if (config.cpf) {
+      return '999.999.999-99'
+   } else if (config.phone) {
+      return '(99) 9999-9999'
+   } else if (config.cep) {
+      return '99999-999'
+   } else if (config.customMask) {
+      return config.customMask
+   }
 }
 
-const FwInputString = ({ id, field, props }: FwInputString) => {
-   const jsxInput = (
-      <Input
-         id={id}
-         type="text"
-         placeholder={field.config.placeholder}
-         disabled={field.config.disabled}
-         {...props}
-      />
-   )
+const FwInputString = ({ id, field, invalid, props }: FwInputString) => {
+   const config = field.config as StringConfig
 
-   // CNPJ
-   if (field.config.cnpj) {
+   if (
+      config.cnpj ||
+      config.cpf ||
+      config.phone ||
+      config.cep ||
+      config.customMask
+   ) {
       return (
-         <FormControl className="w-full">
-            <InputMask
-               mask={masks.cnpj}
-               value={props.value}
-               onChange={props.onChange}
-               onBlur={props.onBlur}
-            >
-               {jsxInput}
-            </InputMask>
-         </FormControl>
+         <InputMask
+            invalid={invalid}
+            id={id}
+            autoClear={false}
+            mask={getMask(config)}
+            className="w-full"
+            placeholder={config.placeholder}
+            disabled={config.disabled}
+            {...props}
+         />
+      )
+   } else {
+      return (
+         <InputText
+            invalid={invalid}
+            id={id}
+            className="w-full"
+            placeholder={config.placeholder}
+            disabled={config.disabled}
+            {...props}
+         />
       )
    }
-
-   // CPF
-   if (field.config.cpf) {
-      return (
-         <FormControl className="w-full">
-            <InputMask
-               mask={masks.cpf}
-               value={props.value}
-               onChange={props.onChange}
-               onBlur={props.onBlur}
-            >
-               {jsxInput}
-            </InputMask>
-         </FormControl>
-      )
-   }
-
-   // Phone
-   if (field.config.phone) {
-      return (
-         <FormControl className="w-full">
-            <InputMask
-               mask={masks.phone}
-               value={props.value}
-               onChange={props.onChange}
-               onBlur={props.onBlur}
-            >
-               {jsxInput}
-            </InputMask>
-         </FormControl>
-      )
-   }
-
-   // CEP
-   if (field.config.cep) {
-      return (
-         <FormControl className="w-full">
-            <InputMask
-               mask={masks.cep}
-               value={props.value}
-               onChange={props.onChange}
-               onBlur={props.onBlur}
-            >
-               {jsxInput}
-            </InputMask>
-         </FormControl>
-      )
-   }
-
-   // Custom Mask
-   if (field.config.customMask) {
-      return (
-         <FormControl className="w-full">
-            <InputMask
-               mask={field.config.customMask}
-               value={props.value}
-               onChange={props.onChange}
-               onBlur={props.onBlur}
-            >
-               {jsxInput}
-            </InputMask>
-         </FormControl>
-      )
-   }
-
-   return <FormControl className="w-full">{jsxInput}</FormControl>
 }
 
 FwInputString.displayName = 'FwInputString'

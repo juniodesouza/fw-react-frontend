@@ -1,60 +1,74 @@
-import { FormControl } from '@/components/ui/form'
-import {
-   Popover,
-   PopoverContent,
-   PopoverTrigger,
-} from '@/components/ui/popover'
-import { Button } from '@/components/ui/button'
-import { CalendarIcon } from '@radix-ui/react-icons'
-import { Calendar } from '@/components/ui/calendar'
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 import { ControllerRenderProps } from 'react-hook-form'
-import { FieldDate } from '../../types'
-import { cn } from '@/lib/utils'
+import { DateConfig, FieldDate } from '../../types'
+import { Calendar } from 'primereact/calendar'
+import { addLocale } from 'primereact/api'
 
 interface FwInputDate {
    id: string
    field: FieldDate
+   invalid: boolean
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputDate = ({ id, field, props }: FwInputDate) => {
+const FwInputDate = ({ id, field, invalid, props }: FwInputDate) => {
+   const config = field.config as DateConfig
+
+   addLocale('pt-br', {
+      firstDayOfWeek: 0,
+      dayNames: [
+         'domingo',
+         'segunda-feira',
+         'terça-feira',
+         'quarta-feira',
+         'quinta-feira',
+         'sexta-feira',
+         'sábado',
+      ],
+      dayNamesShort: ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'],
+      dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+      monthNames: [
+         'janeiro',
+         'fevereiro',
+         'março',
+         'abril',
+         'maio',
+         'junho',
+         'julho',
+         'agosto',
+         'setembro',
+         'outubro',
+         'novembro',
+         'dezembro',
+      ],
+      monthNamesShort: [
+         'jan',
+         'fev',
+         'mar',
+         'abr',
+         'mai',
+         'jun',
+         'jul',
+         'ago',
+         'set',
+         'out',
+         'nov',
+         'dez',
+      ],
+      today: 'Hoje',
+      clear: 'Limpar',
+   })
+
    return (
-      <Popover>
-         <PopoverTrigger asChild>
-            <FormControl className="w-full">
-               <Button
-                  id={id}
-                  disabled={field.config.disabled}
-                  variant={'outline'}
-                  className={cn(
-                     'pl-3 text-left font-normal',
-                     !props.value && 'text-muted-foreground'
-                  )}
-               >
-                  {props.value ? (
-                     format(props.value, 'dd/MM/yyyy')
-                  ) : (
-                     <span>{field.config.placeholder}</span>
-                  )}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-               </Button>
-            </FormControl>
-         </PopoverTrigger>
-         <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-               mode="single"
-               selected={props.value}
-               onSelect={props.onChange}
-               locale={ptBR}
-               // disabled={(date) =>
-               //    date > new Date() || date < new Date('1900-01-01')
-               // }
-               initialFocus
-            />
-         </PopoverContent>
-      </Popover>
+      <Calendar
+         invalid={invalid}
+         inputId={id}
+         disabled={config.disabled}
+         dateFormat="dd/mm/yy"
+         locale="pt-br"
+         showIcon={true}
+         placeholder={'dd/mm/yyyy'}
+         {...props}
+      />
    )
 }
 

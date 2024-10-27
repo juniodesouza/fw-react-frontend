@@ -3,19 +3,19 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { IconBrandFacebook, IconBrandGithub } from '@tabler/icons-react'
-import {
-   Form,
-   FormControl,
-   FormField,
-   FormItem,
-   FormLabel,
-   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/custom/button'
+// import { IconBrandFacebook, IconBrandGithub } from '@tabler/icons-react'
+// import {
+//    Form,
+//    FormControl,
+//    FormField,
+//    FormItem,
+//    FormLabel,
+//    FormMessage,
+// } from '@/components/ui/form'
+// import { Input } from '@/components/ui/input'
+// import { Button } from '@/components/custom/button'
 import { cn } from '@/lib/utils'
-import { InputPassword } from '@/components/custom/password'
+// import { InputPassword } from '@/components/custom/password'
 
 interface UserAuthFormProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -56,7 +56,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
    return (
       <div className={cn('grid gap-6', className)} {...props}>
-         <Form {...form}>
+         {/* <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                <div className="grid gap-2">
                   <FormField
@@ -136,7 +136,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                   </div>
                </div>
             </form>
-         </Form>
+         </Form> */}
       </div>
    )
 }

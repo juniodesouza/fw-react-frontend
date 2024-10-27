@@ -1,25 +1,18 @@
-import { FormControl } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { ControllerRenderProps } from 'react-hook-form'
-import { FieldFile } from '../../types'
+import { FieldFile, FileConfig } from '../../types'
+import { FileUpload } from 'primereact/fileupload'
 
 interface FwInputFile {
    id: string
    field: FieldFile
+   invalid: boolean
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
 const FwInputFile = ({ id, field, props }: FwInputFile) => {
-   return (
-      <FormControl className="w-full">
-         <Input
-            id={id}
-            type="file"
-            disabled={field.config.disabled}
-            {...props}
-         />
-      </FormControl>
-   )
+   const config = field.config as FileConfig
+
+   return <FileUpload id={id} disabled={field.config.disabled} {...props} />
 }
 
 FwInputFile.displayName = 'FwInputFile'

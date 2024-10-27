@@ -1,20 +1,20 @@
-import {
-   Select,
-   SelectContent,
-   SelectItem,
-   SelectTrigger,
-   SelectValue,
-} from '@/components/ui/select'
-import {
-   ChevronLeftIcon,
-   ChevronRightIcon,
-   DoubleArrowLeftIcon,
-   DoubleArrowRightIcon,
-} from '@radix-ui/react-icons'
-import { Button } from '@/components/ui/button'
+// import {
+//    Select,
+//    SelectContent,
+//    SelectItem,
+//    SelectTrigger,
+//    SelectValue,
+// } from '@/components/ui/select'
+// import {
+//    ChevronLeftIcon,
+//    ChevronRightIcon,
+//    DoubleArrowLeftIcon,
+//    DoubleArrowRightIcon,
+// } from '@radix-ui/react-icons'
+// import { Button } from '@/components/ui/button'
 import { FWDataTableContext, useFWDataTable } from './data-table'
 import { useContext } from 'react'
-import { Skeleton } from '@/components/ui/skeleton'
+// import { Skeleton } from '@/components/ui/skeleton'
 
 const FWDataTablePagination = () => {
    const context = useContext(FWDataTableContext)
@@ -36,7 +36,7 @@ const FWDataTablePagination = () => {
 
    return (
       <div className="flex w-full items-center justify-between px-1">
-         <div className="flex-1 text-sm text-muted-foreground">
+         {/* <div className="flex-1 text-sm text-muted-foreground">
             {isLoading ? (
                <Skeleton className="h-4 w-[95px]" />
             ) : (
@@ -113,7 +113,7 @@ const FWDataTablePagination = () => {
                   <DoubleArrowRightIcon className="h-4 w-4" />
                </Button>
             </div>
-         </div>
+         </div> */}
       </div>
    )
 }

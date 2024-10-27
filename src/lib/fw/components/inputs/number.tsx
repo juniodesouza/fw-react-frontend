@@ -1,25 +1,27 @@
-import { FormControl } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { ControllerRenderProps } from 'react-hook-form'
-import { FieldNumber } from '../../types'
+import { FieldNumber, NumberConfig } from '../../types'
+import { InputNumber } from 'primereact/inputnumber'
 
 interface FwInputNumber {
    id: string
    field: FieldNumber
+   invalid: boolean
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputNumber = ({ id, field, props }: FwInputNumber) => {
+const FwInputNumber = ({ id, field, invalid, props }: FwInputNumber) => {
+   const config = field.config as NumberConfig
+
    return (
-      <FormControl className="w-full">
-         <Input
-            id={id}
-            type="number"
-            placeholder={field.config.placeholder}
-            disabled={field.config.disabled}
-            {...props}
-         />
-      </FormControl>
+      <InputNumber
+         invalid={invalid}
+         inputId={id}
+         inputClassName="w-full"
+         useGrouping={false}
+         placeholder={config.placeholder}
+         disabled={config.disabled}
+         {...props}
+      />
    )
 }
 

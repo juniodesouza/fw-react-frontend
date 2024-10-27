@@ -64,7 +64,6 @@ interface BooleanConfig extends FieldConfig {
 
 interface DateConfig extends FieldConfig {
    require: boolean
-   placeholder?: string
 }
 
 interface FloatConfig extends FieldConfig {

@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+// import { Button } from '@/components/ui/button'
 import { ListFilter } from 'lucide-react'
 import { useContext } from 'react'
 import { FWDataTableContext } from './data-table'
@@ -12,10 +12,11 @@ const FWDataTableToobarFilter = () => {
       )
 
    return (
-      <Button variant="ghost">
-         <span>Filtrar</span>
-         <ListFilter className="ml-1" size={14} />
-      </Button>
+      <></>
+      // <Button variant="ghost">
+      //    <span>Filtrar</span>
+      //    <ListFilter className="ml-1" size={14} />
+      // </Button>
    )
 }
 

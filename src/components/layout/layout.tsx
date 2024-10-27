@@ -12,7 +12,7 @@ export default function Layout() {
 
    return (
       <div className={`flex min-h-screen w-full flex-col bg-muted/40`}>
-         <Sidebar isOpen={isOpen} />
+         {/* <Sidebar isOpen={isOpen} /> */}
          <div className={`flex flex-col ${isOpen ? 'sm:pl-56' : 'sm:pl-16'}`}>
             <Navbar handleSidebar={handleSidebar} />
             <main className="px-5 py-2">

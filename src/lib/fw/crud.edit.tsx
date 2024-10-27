@@ -6,24 +6,15 @@ import {
    SelectConfig,
    StringConfig,
 } from './types'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-   Form,
-   FormField,
-   FormItem,
-   FormLabel,
-   FormMessage,
-} from '@/components/ui/form'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CrudInput } from './crud.input'
-import { Card, CardContent } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Button } from '@/components/ui/button'
+import { Card } from 'primereact/card'
+import { Button } from 'primereact/button'
 import FWBreadcrumb from '@/components/layout/breadcrumb/breadcrumb'
 import { Link } from 'react-router-dom'
-import { IconLoader2 } from '@tabler/icons-react'
 
 interface CrudEditInput {
    model: ModelConfig
@@ -206,7 +197,11 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
    })
 
    const formSchema = z.object(zobject)
-   const form = useForm<z.infer<typeof formSchema>>({
+   const {
+      handleSubmit,
+      formState: { errors },
+      control,
+   } = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: defaultValues,
    })
@@ -220,6 +215,10 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
       }, 1000)
    }
 
+   useEffect(() => {
+      console.log(errors)
+   }, [errors])
+
    return (
       <div className="space-y-4">
          <FWBreadcrumb />
@@ -232,9 +231,7 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
                   </p>
                )}
             </div>
-            <Button variant="outline" size="sm" className="px-4">
-               Exportar
-            </Button>
+            <Button className="px-4">Exportar</Button>
          </div>
          <div>
             {/* <Tabs defaultValue="account" className="">
@@ -255,60 +252,56 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
             </Tabs> */}
 
             <Card className="rounded-sm">
-               <CardContent className="pt-6">
-                  <Form {...form}>
-                     <form onSubmit={form.handleSubmit(onSubmit)}>
-                        <div className="grid grid-cols-12 gap-4">
-                           {Object.keys(fields).map(function (key, idx) {
-                              if (!fields[key].edit) return null
-                              return (
-                                 <FormField
-                                    key={idx}
-                                    control={form.control}
-                                    name={key}
-                                    render={({ field }) => (
-                                       <FormItem
-                                          className={`space-y-0 col-span-${fields[key]?.config.size || '4'}`}
-                                       >
-                                          <FormLabel>
-                                             {fields[key].label}
-                                          </FormLabel>
-                                          <CrudInput
-                                             id={key}
-                                             field={fields[key]}
-                                             props={field}
-                                          />
-                                          <FormMessage />
-                                       </FormItem>
-                                    )}
-                                 />
-                              )
-                           })}
-                           <div className="col-span-12 mt-6 flex items-center justify-center gap-4">
-                              <Button
-                                 type="button"
-                                 variant="outline"
-                                 className="w-40"
-                                 asChild
-                              >
-                                 <Link to={`/app/${model.route}`}>Voltar</Link>
-                              </Button>
-
-                              <Button
-                                 type="submit"
-                                 className="w-40"
-                                 disabled={isLoading}
-                              >
-                                 {isLoading && (
-                                    <IconLoader2 className="mr-2 h-4 w-4 animate-spin" />
+               <div className="pt-6">
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                     <div className="grid grid-cols-12 gap-4">
+                        {Object.keys(fields).map(function (key, idx) {
+                           if (!fields[key].edit) return null
+                           return (
+                              <Controller
+                                 key={idx}
+                                 control={control}
+                                 name={key}
+                                 render={({ field }) => (
+                                    <div
+                                       className={`space-y-0 col-span-${fields[key]?.config.size || '4'}`}
+                                    >
+                                       <label>{fields[key].label}</label>
+                                       <CrudInput
+                                          id={key}
+                                          field={fields[key]}
+                                          props={field}
+                                          invalid={!!errors[key]}
+                                       />
+                                       {errors && errors[key] && (
+                                          <p className="text-[0.8rem] text-destructive">
+                                             {String(errors[key].message)}
+                                          </p>
+                                       )}
+                                    </div>
                                  )}
-                                 Salvar
-                              </Button>
-                           </div>
+                              />
+                           )
+                        })}
+                        <div className="col-span-12 mt-6 flex items-center justify-center gap-4">
+                           <Button type="button" className="w-40">
+                              <Link to={`/app/${model.route}`}>Voltar</Link>
+                           </Button>
+
+                           <Button
+                              type="submit"
+                              className="w-40"
+                              disabled={isLoading}
+                           >
+                              {isLoading && (
+                                 <i className="pi pi-spin pi-spinner mr-2 h-4 w-4" />
+                              )}
+                              Salvar
+                           </Button>
                         </div>
-                     </form>
-                  </Form>
-               </CardContent>
+                     </div>
+                  </form>
+               </div>
             </Card>
          </div>
       </div>

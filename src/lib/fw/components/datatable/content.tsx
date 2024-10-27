@@ -1,14 +1,14 @@
-import {
-   Table,
-   TableBody,
-   TableCell,
-   TableHead,
-   TableHeader,
-   TableRow,
-} from '@/components/ui/table'
+// import {
+//    Table,
+//    TableBody,
+//    TableCell,
+//    TableHead,
+//    TableHeader,
+//    TableRow,
+// } from '@/components/ui/table'
 import { Fields } from '../../types'
 import { FWDataTableContext, useFWDataTable } from './data-table'
-import { Skeleton } from '@/components/ui/skeleton'
+// import { Skeleton } from '@/components/ui/skeleton'
 import { useContext } from 'react'
 
 interface FWDataTableContentInput {
@@ -25,7 +25,7 @@ const FWDataTableContent = ({ fields }: FWDataTableContentInput) => {
 
    return (
       <div className="my-3 rounded-md border">
-         <Table>
+         {/* <Table>
             <TableHeader>
                <TableRow className="bg-muted/40">
                   {Object.keys(fields).map((key, idx) => {
@@ -66,7 +66,7 @@ const FWDataTableContent = ({ fields }: FWDataTableContentInput) => {
                        </TableRow>
                     ))}
             </TableBody>
-         </Table>
+         </Table> */}
       </div>
    )
 }

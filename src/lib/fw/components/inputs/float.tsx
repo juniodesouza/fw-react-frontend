@@ -1,25 +1,28 @@
-import { FormControl } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { ControllerRenderProps } from 'react-hook-form'
-import { FieldFloat } from '../../types'
+import { FieldFloat, FloatConfig } from '../../types'
+import { InputNumber } from 'primereact/inputnumber'
 
 interface FwInputFloat {
    id: string
    field: FieldFloat
+   invalid: boolean
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputFloat = ({ id, field, props }: FwInputFloat) => {
+const FwInputFloat = ({ id, field, invalid, props }: FwInputFloat) => {
+   const config = field.config as FloatConfig
+
    return (
-      <FormControl className="w-full">
-         <Input
-            id={id}
-            type="number"
-            placeholder={field.config.placeholder}
-            disabled={field.config.disabled}
-            {...props}
-         />
-      </FormControl>
+      <InputNumber
+         invalid={invalid}
+         inputId={id}
+         inputClassName="w-full"
+         useGrouping={true}
+         prefix={config.currency ? 'R$ ' : ''}
+         placeholder={config.placeholder}
+         disabled={config.disabled}
+         {...props}
+      />
    )
 }
 

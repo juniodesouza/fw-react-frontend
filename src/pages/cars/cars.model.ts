@@ -167,7 +167,6 @@ const CarroModel: ModelConfig = {
          config: {
             size: 2,
             // disabled: true,
-            placeholder: 'Informe a data',
             require: true,
          },
       },

@@ -1,36 +1,32 @@
-import { FormControl } from '@/components/ui/form'
 import { ControllerRenderProps } from 'react-hook-form'
-import { Switch } from '@/components/ui/switch'
-
-import { Label } from '@/components/ui/label'
 import { BooleanConfig, FieldBoolean } from '../../types'
+import { InputSwitch } from 'primereact/inputswitch'
 
 interface FwInputBoolean {
    id: string
    field: FieldBoolean
+   invalid: boolean
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputBoolean = ({ id, field, props }: FwInputBoolean) => {
+const FwInputBoolean = ({ id, field, invalid, props }: FwInputBoolean) => {
    const config = field.config as BooleanConfig
 
    return (
-      <FormControl className="w-full">
-         <div className="flex items-center gap-1 pt-2">
-            <Switch
-               id={id}
-               checked={props.value}
-               onCheckedChange={props.onChange}
-               disabled={!!field.config.disabled}
-               {...props}
-            />{' '}
-            {config.labelTrue && config.labelFalse && (
-               <Label htmlFor={id} className="cursor-pointer">
-                  {props.value ? config.labelTrue : config.labelFalse}
-               </Label>
-            )}
-         </div>
-      </FormControl>
+      <div className="flex items-center gap-1 pt-2">
+         <InputSwitch
+            invalid={invalid}
+            inputId={id}
+            checked={props.value}
+            disabled={!!config.disabled}
+            {...props}
+         />{' '}
+         {config.labelTrue && config.labelFalse && (
+            <label htmlFor={id} className="cursor-pointer">
+               {props.value ? config.labelTrue : config.labelFalse}
+            </label>
+         )}
+      </div>
    )
 }
 

@@ -16,45 +16,130 @@ import { FwInputFile } from './components/inputs/file'
 interface ICrudInput {
    id: string
    field: Field
+   invalid: boolean
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-export function CrudInput({ id, field, props }: ICrudInput) {
+export function CrudInput({ id, field, invalid, props }: ICrudInput) {
    switch (field.type) {
       case 'number':
-         return <FwInputNumber id={id} field={field} props={props} />
+         return (
+            <FwInputNumber
+               id={id}
+               field={field}
+               invalid={invalid}
+               props={props}
+            />
+         )
 
       case 'string':
-         return <FwInputString id={id} field={field} props={props} />
+         return (
+            <FwInputString
+               id={id}
+               field={field}
+               invalid={invalid}
+               props={props}
+            />
+         )
 
       case 'password':
-         return <FwInputPassword id={id} field={field} props={props} />
+         return (
+            <FwInputPassword
+               id={id}
+               field={field}
+               invalid={invalid}
+               props={props}
+            />
+         )
 
       case 'autocomplete':
-         return <FwInputAutoComplete id={id} field={field} props={props} />
+         return (
+            <FwInputAutoComplete
+               id={id}
+               field={field}
+               invalid={invalid}
+               props={props}
+            />
+         )
 
       case 'select':
-         return <FwInputSelect id={id} field={field} props={props} />
+         return (
+            <FwInputSelect
+               id={id}
+               field={field}
+               invalid={invalid}
+               props={props}
+            />
+         )
 
       case 'boolean':
-         return <FwInputBoolean id={id} field={field} props={props} />
+         return (
+            <FwInputBoolean
+               id={id}
+               field={field}
+               invalid={invalid}
+               props={props}
+            />
+         )
 
       case 'date':
-         return <FwInputDate id={id} field={field} props={props} />
+         return (
+            <FwInputDate
+               id={id}
+               field={field}
+               invalid={invalid}
+               props={props}
+            />
+         )
 
       case 'float':
-         return <FwInputFloat id={id} field={field} props={props} />
+         return (
+            <FwInputFloat
+               id={id}
+               field={field}
+               invalid={invalid}
+               props={props}
+            />
+         )
 
       case 'textarea':
-         return <FwInputTextarea id={id} field={field} props={props} />
+         return (
+            <FwInputTextarea
+               id={id}
+               field={field}
+               invalid={invalid}
+               props={props}
+            />
+         )
 
       case 'texteditor':
-         return <FwInputTextEditor id={id} field={field} props={props} />
+         return (
+            <FwInputTextEditor
+               id={id}
+               field={field}
+               invalid={invalid}
+               props={props}
+            />
+         )
 
       case 'time':
-         return <FwInputTime id={id} field={field} props={props} />
+         return (
+            <FwInputTime
+               id={id}
+               field={field}
+               invalid={invalid}
+               props={props}
+            />
+         )
 
       case 'file':
-         return <FwInputFile id={id} field={field} props={props} />
+         return (
+            <FwInputFile
+               id={id}
+               field={field}
+               invalid={invalid}
+               props={props}
+            />
+         )
    }
 }

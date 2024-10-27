@@ -1,25 +1,28 @@
-import { FormControl } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { ControllerRenderProps } from 'react-hook-form'
-import { FieldTime } from '../../types'
+import { FieldTime, TimeConfig } from '../../types'
+import { Calendar } from 'primereact/calendar'
 
 interface FwInputTime {
    id: string
    field: FieldTime
+   invalid: boolean
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputTime = ({ id, field, props }: FwInputTime) => {
+const FwInputTime = ({ id, field, invalid, props }: FwInputTime) => {
+   const config = field.config as TimeConfig
+
    return (
-      <FormControl className="w-full">
-         <Input
-            id={id}
-            type="text"
-            placeholder={field.config.placeholder}
-            disabled={field.config.disabled}
-            {...props}
-         />
-      </FormControl>
+      <Calendar
+         invalid={invalid}
+         inputId={id}
+         disabled={config.disabled}
+         placeholder={'hh:mm'}
+         timeOnly={true}
+         showIcon={true}
+         icon={() => <i className="pi pi-clock" />}
+         {...props}
+      />
    )
 }
 

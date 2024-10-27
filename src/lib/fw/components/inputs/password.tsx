@@ -1,25 +1,28 @@
-import { FormControl } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { ControllerRenderProps } from 'react-hook-form'
-import { FieldPassword } from '../../types'
+import { FieldPassword, PasswordConfig } from '../../types'
+import { Password } from 'primereact/password'
 
 interface FwInputPassword {
    id: string
    field: FieldPassword
+   invalid: boolean
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputPassword = ({ id, field, props }: FwInputPassword) => {
+const FwInputPassword = ({ id, field, invalid, props }: FwInputPassword) => {
+   const config = field.config as PasswordConfig
+
    return (
-      <FormControl className="w-full">
-         <Input
-            id={id}
-            type="password"
-            placeholder={field.config.placeholder}
-            disabled={field.config.disabled}
-            {...props}
-         />
-      </FormControl>
+      <Password
+         invalid={invalid}
+         inputId={id}
+         inputClassName="w-full"
+         feedback={false}
+         toggleMask={true}
+         placeholder={config.placeholder}
+         disabled={config.disabled}
+         {...props}
+      />
    )
 }
 FwInputPassword.displayName = 'FwInputPassword'

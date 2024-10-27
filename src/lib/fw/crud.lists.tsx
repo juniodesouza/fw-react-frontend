@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button'
+import { Button } from 'primereact/button'
 import { ModelConfig } from './types'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card } from 'primereact/card'
 import { Link } from 'react-router-dom'
 import FWBreadcrumb from '@/components/layout/breadcrumb/breadcrumb'
 import FWDataTable, { onRefreshTable } from './components/datatable/data-table'
@@ -26,18 +26,18 @@ const FWCrudList = ({ model, description, onRefreshTable }: CrudListInput) => {
                   </p>
                )}
             </div>
-            <Button size="sm" className="px-4" asChild>
+            <Button className="px-4">
                <Link to={`/app/${model.route}/create`}>Novo registro</Link>
             </Button>
          </div>
          <Card className="mt-0 rounded-sm">
-            <CardContent className="pt-6">
+            <div className="pt-6">
                <FWDataTable
                   fields={fields}
                   route={model.route}
                   onRefreshTable={onRefreshTable}
                />
-            </CardContent>
+            </div>
          </Card>
       </div>
    )
