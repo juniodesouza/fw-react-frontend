@@ -193,19 +193,19 @@ const CarroModel: ModelConfig = {
          config: {
             size: 2,
             require: true,
+            decimalPlaces: 2,
          },
       },
 
       // Currency
       price: {
          label: 'Currency',
-         type: 'float',
+         type: 'currency',
          edit: true,
          list: true,
          config: {
             size: 2,
             require: true,
-            currency: true,
          },
       },
 

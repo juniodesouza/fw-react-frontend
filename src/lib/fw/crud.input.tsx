@@ -12,6 +12,7 @@ import { FwInputFloat } from './components/inputs/float'
 import { FwInputTextEditor } from './components/inputs/texteditor'
 import { FwInputTime } from './components/inputs/time'
 import { FwInputFile } from './components/inputs/file'
+import { FwInputCurrency } from './components/inputs/currency'
 
 interface ICrudInput {
    id: string
@@ -44,6 +45,9 @@ export function CrudInput({ id, field, props }: ICrudInput) {
 
       case 'float':
          return <FwInputFloat id={id} field={field} props={props} />
+
+      case 'currency':
+         return <FwInputCurrency id={id} field={field} props={props} />
 
       case 'textarea':
          return <FwInputTextarea id={id} field={field} props={props} />

@@ -9,6 +9,7 @@ type FieldTypes =
    | 'boolean'
    | 'date'
    | 'float'
+   | 'currency'
    | 'textarea'
    | 'texteditor'
    | 'time'
@@ -70,7 +71,13 @@ interface DateConfig extends FieldConfig {
 interface FloatConfig extends FieldConfig {
    require: boolean
    placeholder?: string
-   currency?: boolean
+   decimalPlaces?: number
+}
+
+interface CurrencyConfig extends FieldConfig {
+   require: boolean
+   placeholder?: string
+   prefix?: string
 }
 
 interface TextareaConfig extends FieldConfig {
@@ -107,6 +114,7 @@ type ConfigTypes =
    | BooleanConfig
    | DateConfig
    | FloatConfig
+   | CurrencyConfig
    | TextareaConfig
    | TextEditorConfig
    | TimeConfig
@@ -161,6 +169,11 @@ export interface FieldFloat extends BaseField {
    config: FloatConfig
 }
 
+export interface FieldCurrency extends BaseField {
+   type: 'currency'
+   config: CurrencyConfig
+}
+
 export interface FieldTextarea extends BaseField {
    type: 'textarea'
    config: TextareaConfig
@@ -190,6 +203,7 @@ type Field =
    | FieldBoolean
    | FieldDate
    | FieldFloat
+   | FieldCurrency
    | FieldTextarea
    | FieldTextEditor
    | FieldTime

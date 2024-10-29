@@ -24,7 +24,7 @@ const FwInputSelect = ({ id, field, props }: FwInputSelect) => {
             name={id}
             onValueChange={props.onChange}
             defaultValue={props.value}
-            disabled={field.config.disabled}
+            disabled={config.disabled}
          >
             <SelectTrigger>
                <SelectValue placeholder={config.placeholder || 'Selecione'} />

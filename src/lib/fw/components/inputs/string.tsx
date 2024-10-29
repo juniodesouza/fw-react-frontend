@@ -13,21 +13,11 @@ interface FwInputString {
 const masks = {
    cnpj: '99.999.999/9999-99',
    cpf: '999.999.999-99',
-   phone: '(99) 9999-9999',
+   phone: '(99) 99999-9999',
    cep: '99999-999',
 }
 
 const FwInputString = ({ id, field, props }: FwInputString) => {
-   const jsxInput = (
-      <Input
-         id={id}
-         type="text"
-         placeholder={field.config.placeholder}
-         disabled={field.config.disabled}
-         {...props}
-      />
-   )
-
    // CNPJ
    if (field.config.cnpj) {
       return (
@@ -38,14 +28,21 @@ const FwInputString = ({ id, field, props }: FwInputString) => {
                onChange={props.onChange}
                onBlur={props.onBlur}
             >
-               {jsxInput}
+               <Input
+                  id={id}
+                  type="text"
+                  inputMode="numeric"
+                  placeholder={field.config.placeholder}
+                  disabled={field.config.disabled}
+                  {...props}
+               />
             </InputMask>
          </FormControl>
       )
    }
 
    // CPF
-   if (field.config.cpf) {
+   else if (field.config.cpf) {
       return (
          <FormControl className="w-full">
             <InputMask
@@ -54,14 +51,21 @@ const FwInputString = ({ id, field, props }: FwInputString) => {
                onChange={props.onChange}
                onBlur={props.onBlur}
             >
-               {jsxInput}
+               <Input
+                  id={id}
+                  type="text"
+                  inputMode="numeric"
+                  placeholder={field.config.placeholder}
+                  disabled={field.config.disabled}
+                  {...props}
+               />
             </InputMask>
          </FormControl>
       )
    }
 
    // Phone
-   if (field.config.phone) {
+   else if (field.config.phone) {
       return (
          <FormControl className="w-full">
             <InputMask
@@ -70,14 +74,21 @@ const FwInputString = ({ id, field, props }: FwInputString) => {
                onChange={props.onChange}
                onBlur={props.onBlur}
             >
-               {jsxInput}
+               <Input
+                  id={id}
+                  type="text"
+                  inputMode="numeric"
+                  placeholder={field.config.placeholder}
+                  disabled={field.config.disabled}
+                  {...props}
+               />
             </InputMask>
          </FormControl>
       )
    }
 
    // CEP
-   if (field.config.cep) {
+   else if (field.config.cep) {
       return (
          <FormControl className="w-full">
             <InputMask
@@ -86,14 +97,21 @@ const FwInputString = ({ id, field, props }: FwInputString) => {
                onChange={props.onChange}
                onBlur={props.onBlur}
             >
-               {jsxInput}
+               <Input
+                  id={id}
+                  type="text"
+                  inputMode="numeric"
+                  placeholder={field.config.placeholder}
+                  disabled={field.config.disabled}
+                  {...props}
+               />
             </InputMask>
          </FormControl>
       )
    }
 
    // Custom Mask
-   if (field.config.customMask) {
+   else if (field.config.customMask) {
       return (
          <FormControl className="w-full">
             <InputMask
@@ -102,13 +120,32 @@ const FwInputString = ({ id, field, props }: FwInputString) => {
                onChange={props.onChange}
                onBlur={props.onBlur}
             >
-               {jsxInput}
+               <Input
+                  id={id}
+                  type="text"
+                  placeholder={field.config.placeholder}
+                  disabled={field.config.disabled}
+                  {...props}
+               />
             </InputMask>
          </FormControl>
       )
    }
 
-   return <FormControl className="w-full">{jsxInput}</FormControl>
+   // Default
+   else {
+      return (
+         <FormControl className="w-full">
+            <Input
+               id={id}
+               type="text"
+               placeholder={field.config.placeholder}
+               disabled={field.config.disabled}
+               {...props}
+            />
+         </FormControl>
+      )
+   }
 }
 
 FwInputString.displayName = 'FwInputString'

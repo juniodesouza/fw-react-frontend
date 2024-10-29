@@ -1,10 +1,14 @@
 import {
    BooleanConfig,
+   DateConfig,
    Fields,
+   FloatConfig,
    ModelConfig,
    NumberConfig,
    SelectConfig,
    StringConfig,
+   TextareaConfig,
+   TimeConfig,
 } from './types'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -19,11 +23,11 @@ import {
 import { useState } from 'react'
 import { CrudInput } from './crud.input'
 import { Card, CardContent } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import FWBreadcrumb from '@/components/layout/breadcrumb/breadcrumb'
 import { Link } from 'react-router-dom'
-import { IconLoader2 } from '@tabler/icons-react'
+import { LoaderCircle } from 'lucide-react'
 
 interface CrudEditInput {
    model: ModelConfig
@@ -32,19 +36,6 @@ interface CrudEditInput {
 
 const FWCrudEdit = ({ model, description }: CrudEditInput) => {
    const [isLoading, setIsLoading] = useState(false)
-
-   // | 'number'
-   // | 'string'
-   // | 'password'
-   // | 'autocomplete'
-   // | 'select'
-   // | 'boolean'
-   // | 'date'
-   // | 'float'
-   // | 'textarea'
-   // | 'texteditor'
-   // | 'time'
-   // | 'file'
 
    const fields = model.fields
    const defaultValues: { [key: string]: any } = {}
@@ -174,9 +165,139 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
             break
          }
 
-         case 'date':
-            // zobject[key] = z.date()
+         case 'date': {
+            const config = fields[key].config as DateConfig
+
+            if (config.require) {
+               zobject[key] = z.date({ message: requiredMessage })
+            } else {
+               zobject[key] = z.date().optional()
+            }
+
             break
+         }
+
+         case 'time': {
+            const config = fields[key].config as TimeConfig
+
+            zobject[key] = z.string()
+
+            if (config.require) {
+               zobject[key] = zobject[key].min(1, {
+                  message: requiredMessage,
+               })
+            }
+
+            zobject[key] = zobject[key].regex(/^([01]\d|2[0-3]):[0-5]\d$/, {
+               message: 'Horário inválido',
+            })
+
+            break
+         }
+
+         case 'float': {
+            const config = fields[key].config as FloatConfig
+
+            zobject[key] = z.string().transform((val, ctx) => {
+               if (val == '') {
+                  if (config.require) {
+                     ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: requiredMessage,
+                     })
+                     return z.NEVER
+                  } else {
+                     return null
+                  }
+               }
+
+               const parsed = parseFloat(val.replace(',', '.'))
+
+               return parsed
+            })
+
+            break
+         }
+
+         case 'currency': {
+            const config = fields[key].config as FloatConfig
+
+            zobject[key] = z.string().transform((val, ctx) => {
+               if (val == '') {
+                  if (config.require) {
+                     ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: requiredMessage,
+                     })
+                     return z.NEVER
+                  } else {
+                     return null
+                  }
+               }
+
+               const parsed = parseFloat(val.replace('.', '').replace(',', '.'))
+
+               return parsed
+            })
+
+            break
+         }
+
+         case 'password': {
+            const config = fields[key].config as StringConfig
+
+            zobject[key] = z.string()
+
+            if (config.require) {
+               zobject[key] = zobject[key].min(1, {
+                  message: requiredMessage,
+               })
+            }
+
+            break
+         }
+
+         case 'autocomplete': {
+            const config = fields[key].config as TextareaConfig
+
+            zobject[key] = z.string()
+
+            if (config.require) {
+               zobject[key] = zobject[key].min(1, {
+                  message: requiredMessage,
+               })
+            }
+
+            break
+         }
+
+         case 'file': {
+            const config = fields[key].config as TextareaConfig
+
+            zobject[key] = z.string()
+
+            if (config.require) {
+               zobject[key] = zobject[key].min(1, {
+                  message: requiredMessage,
+               })
+            }
+
+            break
+         }
+
+         case 'textarea': {
+            const config = fields[key].config as TextareaConfig
+
+            zobject[key] = z.string()
+
+            if (config.require) {
+               zobject[key] = zobject[key].min(1, {
+                  message: requiredMessage,
+               })
+            }
+
+            break
+         }
 
          default: {
             // const config = fields[key].config as StringConfig
@@ -193,16 +314,6 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
             break
          }
       }
-
-      // if (config.require) {
-      //    zobject[key].min(1, {
-      //       message: 'Este campo é obrigatório',
-      //    })
-      // }
-
-      // zobject[key] = z.string().min(1, {
-      //    message: 'Este campo é obrigatório',
-      // })
    })
 
    const formSchema = z.object(zobject)
@@ -254,7 +365,7 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
                <TabsContent value="cenarios">Cenários</TabsContent>
             </Tabs> */}
 
-            <Card className="rounded-sm">
+            <Card className="rounded-xl">
                <CardContent className="pt-6">
                   <Form {...form}>
                      <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -268,7 +379,7 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
                                     name={key}
                                     render={({ field }) => (
                                        <FormItem
-                                          className={`space-y-0 col-span-${fields[key]?.config.size || '4'}`}
+                                          className={`col-span-12 space-y-0 sm:col-span-${fields[key]?.config.size || '4'}`}
                                        >
                                           <FormLabel>
                                              {fields[key].label}
@@ -291,7 +402,9 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
                                  className="w-40"
                                  asChild
                               >
-                                 <Link to={`/app/${model.route}`}>Voltar</Link>
+                                 <Link to={`/app/${model.route}`}>
+                                    Cancelar
+                                 </Link>
                               </Button>
 
                               <Button
@@ -300,7 +413,7 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
                                  disabled={isLoading}
                               >
                                  {isLoading && (
-                                    <IconLoader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
                                  )}
                                  Salvar
                               </Button>

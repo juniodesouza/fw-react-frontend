@@ -60,5 +60,8 @@ module.exports = {
       },
    },
    plugins: [require('tailwindcss-animate')],
-   safelist: Array.from({ length: 12 }, (_, i) => `col-span-${i}`),
+   safelist: [
+      ...Array.from({ length: 12 }, (_, i) => `col-span-${i}`),
+      ...Array.from({ length: 12 }, (_, i) => `sm:col-span-${i}`),
+   ],
 }

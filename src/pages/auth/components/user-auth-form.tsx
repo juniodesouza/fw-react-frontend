@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { IconBrandFacebook, IconBrandGithub } from '@tabler/icons-react'
 import {
    Form,
    FormControl,
@@ -115,7 +114,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                   </div>
 
                   <div className="flex items-center gap-2">
-                     <Button
+                     {/* <Button
                         variant="outline"
                         className="w-full"
                         type="button"
@@ -132,7 +131,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                         leftSection={<IconBrandFacebook className="h-4 w-4" />}
                      >
                         Facebook
-                     </Button>
+                     </Button> */}
                   </div>
                </div>
             </form>
