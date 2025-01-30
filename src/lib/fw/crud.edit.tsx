@@ -33,19 +33,21 @@ import { Button } from '@/components/ui/button'
 import FWBreadcrumb from '@/components/layout/breadcrumb/breadcrumb'
 import { Link } from 'react-router-dom'
 import { LoaderCircle } from 'lucide-react'
-import numberValidator from './validators/number.validator'
-import stringValidator from './validators/string.validator'
-import booleanValidator from './validators/boolean.validator'
-import selectValidator from './validators/select.validator'
-import dateValidator from './validators/date.validator'
-import timeValidator from './validators/time.validator'
-import floatValidator from './validators/float.validator'
-import currencyValidator from './validators/currency.validator'
-import passwordValidator from './validators/password.validator'
-import autocompleteValidator from './validators/autocomplete.validator'
-import fileValidator from './validators/file.validator'
-import textareaValidator from './validators/textarea.validator'
-import texteditorValidator from './validators/texteditor.validator'
+import {
+   autocompleteValidator,
+   booleanValidator,
+   currencyValidator,
+   dateValidator,
+   fileValidator,
+   floatValidator,
+   numberValidator,
+   passwordValidator,
+   selectValidator,
+   stringValidator,
+   textareaValidator,
+   texteditorValidator,
+   timeValidator,
+} from './validators'
 
 interface CrudEditInput {
    model: ModelConfig
@@ -60,87 +62,76 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
    const zobject: { [key: string]: any } = {}
 
    Object.keys(fields).forEach((key: keyof Fields) => {
-      const field = fields[key]
-
       defaultValues[key] = ''
+
+      const field = fields[key]
+      const config = fields[key].config
 
       switch (field.type) {
          case 'number': {
-            const config = fields[key].config as NumberConfig
-            zobject[key] = numberValidator(config)
+            zobject[key] = numberValidator(config as NumberConfig)
             break
          }
 
          case 'string': {
-            const config = fields[key].config as StringConfig
-            zobject[key] = stringValidator(config)
+            zobject[key] = stringValidator(config as StringConfig)
             break
          }
 
          case 'boolean': {
-            const config = fields[key].config as BooleanConfig
-            zobject[key] = booleanValidator(config)
-            defaultValues[key] = config.default
+            const booleanConfig = fields[key].config as BooleanConfig
+            zobject[key] = booleanValidator(booleanConfig)
+            defaultValues[key] = booleanConfig.default
             break
          }
 
          case 'select': {
-            const config = fields[key].config as SelectConfig
-            zobject[key] = selectValidator(config)
+            zobject[key] = selectValidator(config as SelectConfig)
             break
          }
 
          case 'date': {
-            const config = fields[key].config as DateConfig
-            zobject[key] = dateValidator(config)
+            zobject[key] = dateValidator(config as DateConfig)
             break
          }
 
          case 'time': {
-            const config = fields[key].config as TimeConfig
-            zobject[key] = timeValidator(config)
+            zobject[key] = timeValidator(config as TimeConfig)
             break
          }
 
          case 'float': {
-            const config = fields[key].config as FloatConfig
-            zobject[key] = floatValidator(config)
+            zobject[key] = floatValidator(config as FloatConfig)
             break
          }
 
          case 'currency': {
-            const config = fields[key].config as CurrencyConfig
-            zobject[key] = currencyValidator(config)
+            zobject[key] = currencyValidator(config as CurrencyConfig)
             break
          }
 
          case 'password': {
-            const config = fields[key].config as PasswordConfig
-            zobject[key] = passwordValidator(config)
+            zobject[key] = passwordValidator(config as PasswordConfig)
             break
          }
 
          case 'autocomplete': {
-            const config = fields[key].config as AutocompleteConfig
-            zobject[key] = autocompleteValidator(config)
+            zobject[key] = autocompleteValidator(config as AutocompleteConfig)
             break
          }
 
          case 'file': {
-            const config = fields[key].config as FileConfig
-            zobject[key] = fileValidator(config)
+            zobject[key] = fileValidator(config as FileConfig)
             break
          }
 
          case 'textarea': {
-            const config = fields[key].config as TextareaConfig
-            zobject[key] = textareaValidator(config)
+            zobject[key] = textareaValidator(config as TextareaConfig)
             break
          }
 
          case 'texteditor': {
-            const config = fields[key].config as TextEditorConfig
-            zobject[key] = texteditorValidator(config)
+            zobject[key] = texteditorValidator(config as TextEditorConfig)
             break
          }
       }
