@@ -1,13 +1,18 @@
 import {
+   AutocompleteConfig,
    BooleanConfig,
+   CurrencyConfig,
    DateConfig,
    Fields,
+   FileConfig,
    FloatConfig,
    ModelConfig,
    NumberConfig,
+   PasswordConfig,
    SelectConfig,
    StringConfig,
    TextareaConfig,
+   TextEditorConfig,
    TimeConfig,
 } from './types'
 import { useForm } from 'react-hook-form'
@@ -28,6 +33,19 @@ import { Button } from '@/components/ui/button'
 import FWBreadcrumb from '@/components/layout/breadcrumb/breadcrumb'
 import { Link } from 'react-router-dom'
 import { LoaderCircle } from 'lucide-react'
+import numberValidator from './validators/number.validator'
+import stringValidator from './validators/string.validator'
+import booleanValidator from './validators/boolean.validator'
+import selectValidator from './validators/select.validator'
+import dateValidator from './validators/date.validator'
+import timeValidator from './validators/time.validator'
+import floatValidator from './validators/float.validator'
+import currencyValidator from './validators/currency.validator'
+import passwordValidator from './validators/password.validator'
+import autocompleteValidator from './validators/autocomplete.validator'
+import fileValidator from './validators/file.validator'
+import textareaValidator from './validators/textarea.validator'
+import texteditorValidator from './validators/texteditor.validator'
 
 interface CrudEditInput {
    model: ModelConfig
@@ -40,7 +58,6 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
    const fields = model.fields
    const defaultValues: { [key: string]: any } = {}
    const zobject: { [key: string]: any } = {}
-   const requiredMessage = 'Este campo é obrigatório'
 
    Object.keys(fields).forEach((key: keyof Fields) => {
       const field = fields[key]
@@ -50,267 +67,80 @@ const FWCrudEdit = ({ model, description }: CrudEditInput) => {
       switch (field.type) {
          case 'number': {
             const config = fields[key].config as NumberConfig
-
-            zobject[key] = z.string().transform((val, ctx) => {
-               if (val == '') {
-                  if (config.require) {
-                     ctx.addIssue({
-                        code: z.ZodIssueCode.custom,
-                        message: requiredMessage,
-                     })
-                     return z.NEVER
-                  } else {
-                     return null
-                  }
-               }
-
-               const parsed = parseInt(val)
-
-               if (config.min && parsed < config.min) {
-                  ctx.addIssue({
-                     code: z.ZodIssueCode.custom,
-                     message: 'O valor deve ser no mínimo ' + config.min,
-                  })
-                  return z.NEVER
-               }
-
-               if (config.max && parsed > config.max) {
-                  ctx.addIssue({
-                     code: z.ZodIssueCode.custom,
-                     message: 'O valor deve ser no máximo ' + config.max,
-                  })
-                  return z.NEVER
-               }
-
-               return parsed
-            })
-
+            zobject[key] = numberValidator(config)
             break
          }
 
          case 'string': {
             const config = fields[key].config as StringConfig
-
-            zobject[key] = z.string()
-
-            if (config.require) {
-               zobject[key] = zobject[key].min(1, {
-                  message: requiredMessage,
-               })
-            }
-
-            if (config.email) {
-               zobject[key] = zobject[key].email({
-                  message: 'E-mail inválido',
-               })
-            }
-
-            if (config.cnpj) {
-               zobject[key] = zobject[key].regex(
-                  /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
-                  {
-                     message: 'CNPJ inválido',
-                  }
-               )
-            }
-
-            if (config.cpf) {
-               zobject[key] = zobject[key].regex(
-                  /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
-                  {
-                     message: 'CPF inválido',
-                  }
-               )
-            }
-
-            if (config.phone) {
-               zobject[key] = zobject[key].regex(/^\(\d{2}\) \d{4,5}-\d{4}$/, {
-                  message: 'Telefone inválido',
-               })
-            }
-
-            if (config.cep) {
-               zobject[key] = zobject[key].regex(/^\d{5}-\d{3}$/, {
-                  message: 'CEP inválido',
-               })
-            }
-
+            zobject[key] = stringValidator(config)
             break
          }
 
          case 'boolean': {
             const config = fields[key].config as BooleanConfig
-
+            zobject[key] = booleanValidator(config)
             defaultValues[key] = config.default
-
-            zobject[key] = z.coerce
-               .boolean({
-                  required_error: requiredMessage,
-               })
-               .default(config.default)
             break
          }
 
          case 'select': {
             const config = fields[key].config as SelectConfig
-
-            zobject[key] = z.string()
-
-            if (config.require) {
-               zobject[key] = zobject[key].min(1, {
-                  message: requiredMessage,
-               })
-            }
-
+            zobject[key] = selectValidator(config)
             break
          }
 
          case 'date': {
             const config = fields[key].config as DateConfig
-
-            if (config.require) {
-               zobject[key] = z.date({ message: requiredMessage })
-            } else {
-               zobject[key] = z.date().optional()
-            }
-
+            zobject[key] = dateValidator(config)
             break
          }
 
          case 'time': {
             const config = fields[key].config as TimeConfig
-
-            zobject[key] = z.string()
-
-            if (config.require) {
-               zobject[key] = zobject[key].min(1, {
-                  message: requiredMessage,
-               })
-            }
-
-            zobject[key] = zobject[key].regex(/^([01]\d|2[0-3]):[0-5]\d$/, {
-               message: 'Horário inválido',
-            })
-
+            zobject[key] = timeValidator(config)
             break
          }
 
          case 'float': {
             const config = fields[key].config as FloatConfig
-
-            zobject[key] = z.string().transform((val, ctx) => {
-               if (val == '') {
-                  if (config.require) {
-                     ctx.addIssue({
-                        code: z.ZodIssueCode.custom,
-                        message: requiredMessage,
-                     })
-                     return z.NEVER
-                  } else {
-                     return null
-                  }
-               }
-
-               const parsed = parseFloat(val.replace(',', '.'))
-
-               return parsed
-            })
-
+            zobject[key] = floatValidator(config)
             break
          }
 
          case 'currency': {
-            const config = fields[key].config as FloatConfig
-
-            zobject[key] = z.string().transform((val, ctx) => {
-               if (val == '') {
-                  if (config.require) {
-                     ctx.addIssue({
-                        code: z.ZodIssueCode.custom,
-                        message: requiredMessage,
-                     })
-                     return z.NEVER
-                  } else {
-                     return null
-                  }
-               }
-
-               const parsed = parseFloat(val.replace('.', '').replace(',', '.'))
-
-               return parsed
-            })
-
+            const config = fields[key].config as CurrencyConfig
+            zobject[key] = currencyValidator(config)
             break
          }
 
          case 'password': {
-            const config = fields[key].config as StringConfig
-
-            zobject[key] = z.string()
-
-            if (config.require) {
-               zobject[key] = zobject[key].min(1, {
-                  message: requiredMessage,
-               })
-            }
-
+            const config = fields[key].config as PasswordConfig
+            zobject[key] = passwordValidator(config)
             break
          }
 
          case 'autocomplete': {
-            const config = fields[key].config as TextareaConfig
-
-            zobject[key] = z.string()
-
-            if (config.require) {
-               zobject[key] = zobject[key].min(1, {
-                  message: requiredMessage,
-               })
-            }
-
+            const config = fields[key].config as AutocompleteConfig
+            zobject[key] = autocompleteValidator(config)
             break
          }
 
          case 'file': {
-            const config = fields[key].config as TextareaConfig
-
-            zobject[key] = z.string()
-
-            if (config.require) {
-               zobject[key] = zobject[key].min(1, {
-                  message: requiredMessage,
-               })
-            }
-
+            const config = fields[key].config as FileConfig
+            zobject[key] = fileValidator(config)
             break
          }
 
          case 'textarea': {
             const config = fields[key].config as TextareaConfig
-
-            zobject[key] = z.string()
-
-            if (config.require) {
-               zobject[key] = zobject[key].min(1, {
-                  message: requiredMessage,
-               })
-            }
-
+            zobject[key] = textareaValidator(config)
             break
          }
 
-         default: {
-            // const config = fields[key].config as StringConfig
-
-            // zobject[key] = z.coerce.string({
-            //    required_error: requiredMessage,
-            // })
-
-            // if (config.require) {
-            //    zobject[key] = zobject[key].min(1, {
-            //       message: requiredMessage,
-            //    })
-            // }
+         case 'texteditor': {
+            const config = fields[key].config as TextEditorConfig
+            zobject[key] = texteditorValidator(config)
             break
          }
       }
