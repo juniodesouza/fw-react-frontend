@@ -1,12 +1,12 @@
 import { z } from 'zod'
 import { useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
-// import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Button } from '@/components/ui/button'
-import FWBreadcrumb from '@/components/layout/breadcrumb/breadcrumb'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useNavigate } from 'react-router-dom'
-import { Fields, ModelConfig } from '../../types'
+import { BooleanConfig, Fields, ModelConfig } from '../../types'
 import { CrudForm } from './crud-form'
+import { UseFormReturn } from 'react-hook-form'
+// import { Button } from '@/components/ui/button'
 
 interface CrudEditInput {
    model: ModelConfig
@@ -16,14 +16,28 @@ interface CrudEditInput {
 const CrudEdit = ({ model, description }: CrudEditInput) => {
    const navigate = useNavigate()
 
-   const [isLoading, setIsLoading] = useState(false)
+   const [isSending, setIsSending] = useState(false)
+   const [formInstance, setFormInstance] = useState<UseFormReturn | null>(null)
 
    const fields = model.fields
+   const formFields: Fields = {}
 
    const defaultValues: { [key: string]: any } = {}
-   //defaultValues[key] = booleanConfig.default
    Object.keys(fields).forEach((key: keyof Fields) => {
-      defaultValues[key] = ''
+      const field = fields[key]
+
+      if (field.type === 'boolean') {
+         const booleanConfig = fields[key].config as BooleanConfig
+         defaultValues[key] = booleanConfig.default
+      } else {
+         defaultValues[key] = ''
+      }
+
+      // field.config.require = false
+
+      if (field.edit) {
+         formFields[key] = field
+      }
    })
 
    function onCancel() {
@@ -31,17 +45,18 @@ const CrudEdit = ({ model, description }: CrudEditInput) => {
    }
 
    function onSubmit(data: z.infer<z.ZodObject<any, any>>) {
-      setIsLoading(true)
+      setIsSending(true)
       console.log(data)
 
       setTimeout(() => {
-         setIsLoading(false)
+         setIsSending(false)
       }, 1000)
    }
 
+   console.log(formInstance)
+
    return (
-      <div className="space-y-4">
-         <FWBreadcrumb />
+      <div className="space-y-4 pt-6">
          <div className="flex items-end gap-2 align-middle">
             <div className="flex-1">
                <h1 className="text-3xl font-bold">{model.label}</h1>
@@ -51,12 +66,12 @@ const CrudEdit = ({ model, description }: CrudEditInput) => {
                   </p>
                )}
             </div>
-            <Button variant="outline" size="sm" className="px-4">
+            {/* <Button variant="outline" size="sm" className="px-4">
                Exportar
-            </Button>
+            </Button> */}
          </div>
          <div>
-            {/* <Tabs defaultValue="account" className="">
+            <Tabs defaultValue="account" className="">
                <TabsList className="w-full justify-start">
                   <TabsTrigger className="px-5" value="account">
                      Informações
@@ -68,22 +83,23 @@ const CrudEdit = ({ model, description }: CrudEditInput) => {
                      Cenários
                   </TabsTrigger>
                </TabsList>
-               <TabsContent value="account">Informações</TabsContent>
+               <TabsContent value="account">
+                  <Card className="rounded-xl">
+                     <CardContent className="pt-6">
+                        <CrudForm
+                           fields={formFields}
+                           defaultValues={defaultValues}
+                           onSubmit={onSubmit}
+                           onCancel={onCancel}
+                           isSending={isSending}
+                           formRef={setFormInstance}
+                        />
+                     </CardContent>
+                  </Card>
+               </TabsContent>
                <TabsContent value="password">Revisões</TabsContent>
                <TabsContent value="cenarios">Cenários</TabsContent>
-            </Tabs> */}
-
-            <Card className="rounded-xl">
-               <CardContent className="pt-6">
-                  <CrudForm
-                     fields={fields}
-                     defaultValues={defaultValues}
-                     onSubmit={onSubmit}
-                     onCancel={onCancel}
-                     isLoading={isLoading}
-                  />
-               </CardContent>
-            </Card>
+            </Tabs>
          </div>
       </div>
    )

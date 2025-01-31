@@ -10,7 +10,7 @@ const CarroModel: ModelConfig = {
    },
    fields: {
       // Number
-      id: {
+      code: {
          label: 'Number',
          type: 'number',
          edit: true,
@@ -20,7 +20,7 @@ const CarroModel: ModelConfig = {
             require: true,
             max: 10,
             min: 5,
-            placeholder: 'Informe o id',
+            placeholder: 'Informe o código',
             // disabled: true,
          },
       },

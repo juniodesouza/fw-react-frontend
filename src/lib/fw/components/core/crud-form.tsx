@@ -9,25 +9,28 @@ import { CrudInput } from './crud-input'
 import { Button } from '@/components/ui/button'
 import { LoaderCircle } from 'lucide-react'
 import { Fields } from '../../types'
-import { useForm } from 'react-hook-form'
+import { useForm, UseFormReturn } from 'react-hook-form'
 import { z } from 'zod'
 import { formValidator } from '../../validators'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect } from 'react'
 
 interface CrudFormProps {
    fields: Fields
    defaultValues: { [key: string]: any }
-   isLoading?: boolean
+   isSending?: boolean
    onSubmit: (data: z.infer<z.ZodObject<any, any>>) => void
    onCancel?: () => void
+   formRef?: (form: UseFormReturn) => void
 }
 
 const CrudForm = ({
    fields,
    defaultValues,
-   isLoading,
+   isSending,
    onSubmit,
    onCancel,
+   formRef,
 }: CrudFormProps) => {
    const formSchema = z.object(formValidator(fields))
 
@@ -36,12 +39,17 @@ const CrudForm = ({
       defaultValues: defaultValues,
    })
 
+   useEffect(() => {
+      if (formRef) {
+         formRef(form)
+      }
+   }, [])
+
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid grid-cols-12 gap-4">
                {Object.keys(fields).map(function (key, idx) {
-                  if (!fields[key].edit) return null
                   return (
                      <FormField
                         key={idx}
@@ -74,8 +82,8 @@ const CrudForm = ({
                         Cancelar
                      </Button>
                   )}
-                  <Button type="submit" className="w-40" disabled={isLoading}>
-                     {isLoading && (
+                  <Button type="submit" className="w-40" disabled={isSending}>
+                     {isSending && (
                         <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
                      )}
                      Salvar

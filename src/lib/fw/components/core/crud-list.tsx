@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Link } from 'react-router-dom'
-import FWBreadcrumb from '@/components/layout/breadcrumb/breadcrumb'
 import { ModelConfig } from '../../types'
 import FWDataTable, { onRefreshTable } from '../datatable/data-table'
 
@@ -15,8 +14,7 @@ const CrudList = ({ model, description, onRefreshTable }: CrudListInput) => {
    const fields = model.fields
 
    return (
-      <div className="space-y-4">
-         <FWBreadcrumb />
+      <div className="space-y-4 pt-6">
          <div className="flex items-end gap-2 align-middle">
             <div className="flex-1">
                <h1 className="text-3xl font-bold">{model.label}</h1>
