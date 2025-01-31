@@ -24,7 +24,6 @@ const CrudEdit = ({ model, description }: CrudEditInput) => {
    //defaultValues[key] = booleanConfig.default
    Object.keys(fields).forEach((key: keyof Fields) => {
       defaultValues[key] = ''
-      fields[key].config.require = false
    })
 
    function onCancel() {
