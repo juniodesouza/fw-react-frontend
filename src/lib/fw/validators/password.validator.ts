@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { PasswordConfig } from '@/lib/fw/types'
+import { PasswordConfig } from '../types'
 
-const passwordValidator = (config: PasswordConfig) => {
+export const passwordValidator = (config: PasswordConfig) => {
    let schema = z.string()
 
    if (config.require) {
@@ -10,7 +10,5 @@ const passwordValidator = (config: PasswordConfig) => {
       })
    }
 
-   return schema
+   return schema.transform((val) => (val === '' ? null : val))
 }
-
-export default passwordValidator

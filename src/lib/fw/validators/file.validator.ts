@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { FileConfig } from '@/lib/fw/types'
+import { FileConfig } from '../types'
 
-const fileValidator = (config: FileConfig) => {
+export const fileValidator = (config: FileConfig) => {
    let schema = z.string()
 
    if (config.require) {
@@ -10,7 +10,5 @@ const fileValidator = (config: FileConfig) => {
       })
    }
 
-   return schema
+   return schema.transform((val) => (val === '' ? null : val))
 }
-
-export default fileValidator

@@ -5,13 +5,13 @@ import { FieldTime } from '../../types'
 import InputMask from '@mona-health/react-input-mask'
 import { Clock } from 'lucide-react'
 
-interface FwInputTime {
+interface InputTimeProps {
    id: string
    field: FieldTime
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputTime = ({ id, field, props }: FwInputTime) => {
+const InputTime = ({ id, field, props }: InputTimeProps) => {
    return (
       <FormControl className="w-full">
          <div className="relative">
@@ -36,6 +36,6 @@ const FwInputTime = ({ id, field, props }: FwInputTime) => {
    )
 }
 
-FwInputTime.displayName = 'FwInputTime'
+InputTime.displayName = 'InputTime'
 
-export { FwInputTime }
+export { InputTime }

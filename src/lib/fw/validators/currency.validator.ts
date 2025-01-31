@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { CurrencyConfig } from '@/lib/fw/types'
+import { CurrencyConfig } from '../types'
 
-const currencyValidator = (config: CurrencyConfig) => {
+export const currencyValidator = (config: CurrencyConfig) => {
    const schema = z.string().transform((val, ctx) => {
       if (val == '') {
          if (config.require) {
@@ -22,5 +22,3 @@ const currencyValidator = (config: CurrencyConfig) => {
 
    return schema
 }
-
-export default currencyValidator

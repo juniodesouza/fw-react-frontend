@@ -1,16 +1,14 @@
 import { z } from 'zod'
-import { DateConfig } from '@/lib/fw/types'
+import { DateConfig } from '../types'
 
-const dateValidator = (config: DateConfig) => {
+export const dateValidator = (config: DateConfig) => {
    let schema
 
    if (config.require) {
       schema = z.date({ message: 'Este campo é obrigatório' })
    } else {
-      schema = z.date().optional()
+      schema = z.date().or(z.literal(''))
    }
 
-   return schema
+   return schema.transform((val) => (val === '' ? null : val))
 }
-
-export default dateValidator

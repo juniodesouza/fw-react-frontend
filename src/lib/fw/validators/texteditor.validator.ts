@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { TextEditorConfig } from '@/lib/fw/types'
+import { TextEditorConfig } from '../types'
 
-const texteditorValidator = (config: TextEditorConfig) => {
+export const texteditorValidator = (config: TextEditorConfig) => {
    let schema = z.string()
 
    if (config.require) {
@@ -10,7 +10,5 @@ const texteditorValidator = (config: TextEditorConfig) => {
       })
    }
 
-   return schema
+   return schema.transform((val) => (val === '' ? null : val))
 }
-
-export default texteditorValidator

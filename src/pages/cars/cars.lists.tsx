@@ -1,4 +1,4 @@
-import { FWCrudList, onRefreshTable } from '@/lib/fw/crud.lists'
+import { CrudList, onRefreshTable } from '@/lib/fw'
 import CarroModel from './cars.model'
 
 export function CarsList() {
@@ -10,7 +10,7 @@ export function CarsList() {
    }
 
    return (
-      <FWCrudList
+      <CrudList
          model={CarroModel}
          description={description}
          onRefreshTable={onRefreshTable}

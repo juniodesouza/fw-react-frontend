@@ -1,16 +1,14 @@
 import { z } from 'zod'
-import { AutocompleteConfig } from '@/lib/fw/types'
+import { AutocompleteConfig } from '../types'
 
-const autocompleteValidator = (config: AutocompleteConfig) => {
+export const autocompleteValidator = (config: AutocompleteConfig) => {
    let schema = z.string()
 
    if (config.require) {
-      schema = schema.min(1, {
+      schema = z.string().min(1, {
          message: 'Este campo é obrigatório',
       })
    }
 
-   return schema
+   return schema.transform((val) => (val === '' ? null : val))
 }
-
-export default autocompleteValidator

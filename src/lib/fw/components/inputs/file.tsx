@@ -3,13 +3,13 @@ import { Input } from '@/components/ui/input'
 import { ControllerRenderProps } from 'react-hook-form'
 import { FieldFile } from '../../types'
 
-interface FwInputFile {
+interface InputFileProps {
    id: string
    field: FieldFile
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputFile = ({ id, field, props }: FwInputFile) => {
+const InputFile = ({ id, field, props }: InputFileProps) => {
    return (
       <FormControl className="w-full">
          <Input
@@ -22,6 +22,6 @@ const FwInputFile = ({ id, field, props }: FwInputFile) => {
    )
 }
 
-FwInputFile.displayName = 'FwInputFile'
+InputFile.displayName = 'InputFile'
 
-export { FwInputFile }
+export { InputFile }

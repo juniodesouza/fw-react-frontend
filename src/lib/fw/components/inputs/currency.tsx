@@ -3,13 +3,13 @@ import { Input } from '@/components/ui/input'
 import { ControllerRenderProps } from 'react-hook-form'
 import { CurrencyConfig, FieldCurrency } from '../../types'
 
-interface FwInputCurrency {
+interface InputCurrencyProps {
    id: string
    field: FieldCurrency
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputCurrency = ({ id, field, props }: FwInputCurrency) => {
+const InputCurrency = ({ id, field, props }: InputCurrencyProps) => {
    const config = field.config as CurrencyConfig
 
    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +64,6 @@ const FwInputCurrency = ({ id, field, props }: FwInputCurrency) => {
    )
 }
 
-FwInputCurrency.displayName = 'FwInputCurrency'
+InputCurrency.displayName = 'InputCurrency'
 
-export { FwInputCurrency }
+export { InputCurrency }

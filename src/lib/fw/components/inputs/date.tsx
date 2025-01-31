@@ -13,13 +13,13 @@ import { ControllerRenderProps } from 'react-hook-form'
 import { FieldDate } from '../../types'
 import { cn } from '@/lib/utils'
 
-interface FwInputDate {
+interface InputDateProps {
    id: string
    field: FieldDate
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputDate = ({ id, field, props }: FwInputDate) => {
+const InputDate = ({ id, field, props }: InputDateProps) => {
    return (
       <Popover>
          <PopoverTrigger asChild>
@@ -58,6 +58,6 @@ const FwInputDate = ({ id, field, props }: FwInputDate) => {
    )
 }
 
-FwInputDate.displayName = 'FwInputDate'
+InputDate.displayName = 'InputDate'
 
-export { FwInputDate }
+export { InputDate }

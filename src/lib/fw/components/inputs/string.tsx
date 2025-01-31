@@ -4,7 +4,7 @@ import { ControllerRenderProps } from 'react-hook-form'
 import { FieldString } from '../../types'
 import InputMask from '@mona-health/react-input-mask'
 
-interface FwInputString {
+interface InputStringProps {
    id: string
    field: FieldString
    props: ControllerRenderProps<{ [x: string]: any }, string>
@@ -17,7 +17,7 @@ const masks = {
    cep: '99999-999',
 }
 
-const FwInputString = ({ id, field, props }: FwInputString) => {
+const InputString = ({ id, field, props }: InputStringProps) => {
    // CNPJ
    if (field.config.cnpj) {
       return (
@@ -148,6 +148,6 @@ const FwInputString = ({ id, field, props }: FwInputString) => {
    }
 }
 
-FwInputString.displayName = 'FwInputString'
+InputString.displayName = 'InputString'
 
-export { FwInputString }
+export { InputString }

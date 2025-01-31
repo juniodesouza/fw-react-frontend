@@ -6,13 +6,13 @@ import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 
-interface FwInputPassword {
+interface InputPasswordProps {
    id: string
    field: FieldPassword
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputPassword = ({ id, field, props }: FwInputPassword) => {
+const InputPassword = ({ id, field, props }: InputPasswordProps) => {
    const config = field.config as PasswordConfig
 
    const [showPassword, setShowPassword] = useState(false)
@@ -40,6 +40,6 @@ const FwInputPassword = ({ id, field, props }: FwInputPassword) => {
       </FormControl>
    )
 }
-FwInputPassword.displayName = 'FwInputPassword'
+InputPassword.displayName = 'InputPassword'
 
-export { FwInputPassword }
+export { InputPassword }

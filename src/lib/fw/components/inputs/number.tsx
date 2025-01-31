@@ -3,13 +3,13 @@ import { Input } from '@/components/ui/input'
 import { ControllerRenderProps } from 'react-hook-form'
 import { FieldNumber, NumberConfig } from '../../types'
 
-interface FwInputNumber {
+interface InputNumberProps {
    id: string
    field: FieldNumber
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputNumber = ({ id, field, props }: FwInputNumber) => {
+const InputNumber = ({ id, field, props }: InputNumberProps) => {
    const config = field.config as NumberConfig
 
    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +34,6 @@ const FwInputNumber = ({ id, field, props }: FwInputNumber) => {
    )
 }
 
-FwInputNumber.displayName = 'FwInputNumber'
+InputNumber.displayName = 'InputNumber'
 
-export { FwInputNumber }
+export { InputNumber }

@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { BooleanConfig } from '@/lib/fw/types'
+import { BooleanConfig } from '../types'
 
-const booleanValidator = (config: BooleanConfig) => {
+export const booleanValidator = (config: BooleanConfig) => {
    const schema = z.coerce
       .boolean({
          required_error: 'Este campo é obrigatório',
@@ -10,5 +10,3 @@ const booleanValidator = (config: BooleanConfig) => {
 
    return schema
 }
-
-export default booleanValidator

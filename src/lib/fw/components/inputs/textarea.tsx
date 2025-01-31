@@ -3,13 +3,13 @@ import { ControllerRenderProps } from 'react-hook-form'
 import { FieldTextarea, TextareaConfig } from '../../types'
 import { Textarea } from '@/components/ui/textarea'
 
-interface FwInputTextarea {
+interface InputTextareaProps {
    id: string
    field: FieldTextarea
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputTextarea = ({ id, field, props }: FwInputTextarea) => {
+const InputTextarea = ({ id, field, props }: InputTextareaProps) => {
    const config = field.config as TextareaConfig
 
    return (
@@ -26,6 +26,6 @@ const FwInputTextarea = ({ id, field, props }: FwInputTextarea) => {
    )
 }
 
-FwInputTextarea.displayName = 'FwInputTextarea'
+InputTextarea.displayName = 'InputTextarea'
 
-export { FwInputTextarea }
+export { InputTextarea }

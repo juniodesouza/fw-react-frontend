@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { SelectConfig } from '@/lib/fw/types'
+import { SelectConfig } from '../types'
 
-const selectValidator = (config: SelectConfig) => {
+export const selectValidator = (config: SelectConfig) => {
    let schema = z.string()
 
    if (config.require) {
@@ -10,7 +10,5 @@ const selectValidator = (config: SelectConfig) => {
       })
    }
 
-   return schema
+   return schema.transform((val) => (val === '' ? null : val))
 }
-
-export default selectValidator

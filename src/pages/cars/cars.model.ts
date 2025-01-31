@@ -1,4 +1,4 @@
-import { ModelConfig } from '@/lib/fw/types'
+import { ModelConfig } from '@/lib/fw'
 
 const CarroModel: ModelConfig = {
    label: 'Carros',

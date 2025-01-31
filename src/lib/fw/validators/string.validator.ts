@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { StringConfig } from '@/lib/fw/types'
+import { StringConfig } from '../types'
 
-const stringValidator = (config: StringConfig) => {
+export const stringValidator = (config: StringConfig) => {
    let schema = z.string()
 
    if (config.require) {
@@ -11,36 +11,37 @@ const stringValidator = (config: StringConfig) => {
    }
 
    if (config.email) {
-      schema = schema.email({
-         message: 'E-mail inválido',
-      })
+      schema = schema.regex(
+         /^$|^[a-zA-Z\u0400-\u04FF0-9._%+-]+@[a-zA-Z\u0400-\u04FF0-9.-]+\.[a-zA-Z]{2,}$/,
+         {
+            message: 'E-mail inválido',
+         }
+      )
    }
 
    if (config.cnpj) {
-      schema = schema.regex(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/, {
+      schema = schema.regex(/^$|^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/, {
          message: 'CNPJ inválido',
       })
    }
 
    if (config.cpf) {
-      schema = schema.regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, {
+      schema = schema.regex(/^$|^\d{3}\.\d{3}\.\d{3}-\d{2}$/, {
          message: 'CPF inválido',
       })
    }
 
    if (config.phone) {
-      schema = schema.regex(/^\(\d{2}\) \d{4,5}-\d{4}$/, {
+      schema = schema.regex(/^$|^\(\d{2}\) \d{4,5}-\d{4}$/, {
          message: 'Telefone inválido',
       })
    }
 
    if (config.cep) {
-      schema = schema.regex(/^\d{5}-\d{3}$/, {
+      schema = schema.regex(/^$|^\d{5}-\d{3}$/, {
          message: 'CEP inválido',
       })
    }
 
-   return schema
+   return schema.transform((val) => (val === '' ? null : val))
 }
-
-export default stringValidator

@@ -9,13 +9,13 @@ import {
 import { ControllerRenderProps } from 'react-hook-form'
 import { FieldSelect, SelectConfig } from '../../types'
 
-interface FwInputSelect {
+interface InputSelectProps {
    id: string
    field: FieldSelect
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputSelect = ({ id, field, props }: FwInputSelect) => {
+const InputSelect = ({ id, field, props }: InputSelectProps) => {
    const config = field.config as SelectConfig
 
    return (
@@ -43,6 +43,6 @@ const FwInputSelect = ({ id, field, props }: FwInputSelect) => {
    )
 }
 
-FwInputSelect.displayName = 'FwInputSelect'
+InputSelect.displayName = 'InputSelect'
 
-export { FwInputSelect }
+export { InputSelect }

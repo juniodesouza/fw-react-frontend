@@ -58,6 +58,7 @@ interface SelectConfig extends FieldConfig {
 }
 
 interface BooleanConfig extends FieldConfig {
+   require?: boolean
    labelTrue?: string
    labelFalse?: string
    default: boolean
@@ -194,7 +195,7 @@ export interface FieldFile extends BaseField {
    config: FileConfig
 }
 
-type Field =
+export type Field =
    | FieldString
    | FieldNumber
    | FieldPassword

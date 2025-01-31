@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button'
-import { ModelConfig } from './types'
 import { Card, CardContent } from '@/components/ui/card'
 import { Link } from 'react-router-dom'
 import FWBreadcrumb from '@/components/layout/breadcrumb/breadcrumb'
-import FWDataTable, { onRefreshTable } from './components/datatable/data-table'
+import { ModelConfig } from '../../types'
+import FWDataTable, { onRefreshTable } from '../datatable/data-table'
 
 interface CrudListInput {
    model: ModelConfig
@@ -11,7 +11,7 @@ interface CrudListInput {
    onRefreshTable?: onRefreshTable
 }
 
-const FWCrudList = ({ model, description, onRefreshTable }: CrudListInput) => {
+const CrudList = ({ model, description, onRefreshTable }: CrudListInput) => {
    const fields = model.fields
 
    return (
@@ -43,5 +43,5 @@ const FWCrudList = ({ model, description, onRefreshTable }: CrudListInput) => {
    )
 }
 
-export { FWCrudList }
+export { CrudList }
 export type { onRefreshTable }

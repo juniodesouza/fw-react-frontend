@@ -3,13 +3,13 @@ import { Input } from '@/components/ui/input'
 import { ControllerRenderProps } from 'react-hook-form'
 import { FieldFloat, FloatConfig } from '../../types'
 
-interface FwInputFloat {
+interface InputFloatProps {
    id: string
    field: FieldFloat
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputFloat = ({ id, field, props }: FwInputFloat) => {
+const InputFloat = ({ id, field, props }: InputFloatProps) => {
    const config = field.config as FloatConfig
 
    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +36,6 @@ const FwInputFloat = ({ id, field, props }: FwInputFloat) => {
    )
 }
 
-FwInputFloat.displayName = 'FwInputFloat'
+InputFloat.displayName = 'InputFloat'
 
-export { FwInputFloat }
+export { InputFloat }

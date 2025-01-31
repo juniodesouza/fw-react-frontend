@@ -18,13 +18,13 @@ import { FieldAutocomplete } from '../../types'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/custom/button'
 
-interface FwInputAutoComplete {
+interface InputAutoCompleteProps {
    id: string
    field: FieldAutocomplete
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputAutoComplete = ({ id, field, props }: FwInputAutoComplete) => {
+const InputAutoComplete = ({ id, field, props }: InputAutoCompleteProps) => {
    const languages = [
       { label: id, value: field.label },
       { label: 'English', value: 'en' },
@@ -96,6 +96,6 @@ const FwInputAutoComplete = ({ id, field, props }: FwInputAutoComplete) => {
    )
 }
 
-FwInputAutoComplete.displayName = 'FwInputAutoComplete'
+InputAutoComplete.displayName = 'InputAutoComplete'
 
-export { FwInputAutoComplete }
+export { InputAutoComplete }

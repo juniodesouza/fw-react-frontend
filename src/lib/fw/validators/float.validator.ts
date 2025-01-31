@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { FloatConfig } from '@/lib/fw/types'
+import { FloatConfig } from '../types'
 
-const floatValidator = (config: FloatConfig) => {
+export const floatValidator = (config: FloatConfig) => {
    const schema = z.string().transform((val, ctx) => {
       if (val == '') {
          if (config.require) {
@@ -22,5 +22,3 @@ const floatValidator = (config: FloatConfig) => {
 
    return schema
 }
-
-export default floatValidator

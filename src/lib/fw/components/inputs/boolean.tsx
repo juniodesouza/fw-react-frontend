@@ -5,13 +5,13 @@ import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { BooleanConfig, FieldBoolean } from '../../types'
 
-interface FwInputBoolean {
+interface InputBooleanProps {
    id: string
    field: FieldBoolean
    props: ControllerRenderProps<{ [x: string]: any }, string>
 }
 
-const FwInputBoolean = ({ id, field, props }: FwInputBoolean) => {
+const InputBoolean = ({ id, field, props }: InputBooleanProps) => {
    const config = field.config as BooleanConfig
 
    return (
@@ -34,6 +34,6 @@ const FwInputBoolean = ({ id, field, props }: FwInputBoolean) => {
    )
 }
 
-FwInputBoolean.displayName = 'FwInputBoolean'
+InputBoolean.displayName = 'InputBoolean'
 
-export { FwInputBoolean }
+export { InputBoolean }

@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { NumberConfig } from '@/lib/fw/types'
+import { NumberConfig } from '../types'
 
-const numberValidator = (config: NumberConfig) => {
+export const numberValidator = (config: NumberConfig) => {
    const schema = z.string().transform((val, ctx) => {
       if (val == '') {
          if (config.require) {
@@ -38,5 +38,3 @@ const numberValidator = (config: NumberConfig) => {
 
    return schema
 }
-
-export default numberValidator

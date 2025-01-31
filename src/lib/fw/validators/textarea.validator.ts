@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { TextareaConfig } from '@/lib/fw/types'
+import { TextareaConfig } from '../types'
 
-const textareaValidator = (config: TextareaConfig) => {
+export const textareaValidator = (config: TextareaConfig) => {
    let schema = z.string()
 
    if (config.require) {
@@ -10,7 +10,5 @@ const textareaValidator = (config: TextareaConfig) => {
       })
    }
 
-   return schema
+   return schema.transform((val) => (val === '' ? null : val))
 }
-
-export default textareaValidator
