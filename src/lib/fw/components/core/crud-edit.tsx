@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useNavigate } from 'react-router-dom'
@@ -53,7 +53,11 @@ const CrudEdit = ({ model, description }: CrudEditInput) => {
       }, 1000)
    }
 
-   console.log(formInstance)
+   useEffect(() => {
+      if (!formInstance) return
+
+      console.log(formInstance)
+   }, [formInstance])
 
    return (
       <div className="space-y-4 pt-6">
