@@ -1,4 +1,4 @@
-import { CrudEdit, useCrudEdit } from '@/lib/fw'
+import { CrudEdit, CrudLayout, useCrudEdit, useCrudLayout } from '@/lib/fw'
 import CarroModel from './cars.model'
 import { useEffect } from 'react'
 
@@ -9,15 +9,10 @@ import { useEffect } from 'react'
 // })
 
 const CarsEditComponent = () => {
-   const {
-      setDescription,
-      watch,
-      getValues,
-      setValue,
-      getValue,
-      beforeSave,
-      afterSave,
-   } = useCrudEdit()
+   const { setDescription } = useCrudLayout()
+
+   const { watch, getValues, setValue, getValue, beforeSave, afterSave } =
+      useCrudEdit()
 
    useEffect(() => {
       setDescription('Para o cadastramento de novos carros, use esta tela.')
@@ -65,13 +60,15 @@ const CarsEditComponent = () => {
       })
    }, [])
 
-   return <></>
+   return null
 }
 
 export function CarsEdit() {
    return (
-      <CrudEdit model={CarroModel}>
-         <CarsEditComponent />
-      </CrudEdit>
+      <CrudLayout title={CarroModel.label}>
+         <CrudEdit model={CarroModel}>
+            <CarsEditComponent />
+         </CrudEdit>
+      </CrudLayout>
    )
 }

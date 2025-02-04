@@ -1,45 +1,61 @@
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Link } from 'react-router-dom'
+import { createContext, useContext, useRef } from 'react'
 import { ModelConfig } from '../../types'
 import FWDataTable, { onRefreshTable } from '../datatable/data-table'
 
+type CrudListContextProps =
+   | {
+        refreshTable: (callback: onRefreshTable) => void
+     }
+   | undefined
+
+const CrudListContext = createContext<CrudListContextProps>(undefined)
+
 interface CrudListInput {
+   children: React.ReactNode
    model: ModelConfig
-   description?: string
-   onRefreshTable?: onRefreshTable
 }
 
-const CrudList = ({ model, description, onRefreshTable }: CrudListInput) => {
+const CrudList = ({ children, model }: CrudListInput) => {
    const fields = model.fields
 
+   const refreshTableRef = useRef<onRefreshTable>()
+
+   //    <Button size="sm" className="px-4" asChild>
+   //    <Link to={`/app/${model.route}/create`}>Novo registro</Link>
+   // </Button>
+
+   const refreshTable = (callback: onRefreshTable) => {
+      refreshTableRef.current = callback
+   }
+
+   const onRefreshTable: onRefreshTable = (table) => {
+      if (refreshTableRef.current) {
+         refreshTableRef.current(table)
+      }
+   }
+
+   const contextValue: CrudListContextProps = {
+      refreshTable,
+   }
+
    return (
-      <div className="space-y-4 pt-6">
-         <div className="flex items-end gap-2 align-middle">
-            <div className="flex-1">
-               <h1 className="text-3xl font-bold">{model.label}</h1>
-               {description && (
-                  <p className="text-sm italic text-muted-foreground">
-                     {description}
-                  </p>
-               )}
-            </div>
-            <Button size="sm" className="px-4" asChild>
-               <Link to={`/app/${model.route}/create`}>Novo registro</Link>
-            </Button>
-         </div>
-         <Card className="mt-0 rounded-sm">
-            <CardContent className="pt-6">
-               <FWDataTable
-                  fields={fields}
-                  route={model.route}
-                  onRefreshTable={onRefreshTable}
-               />
-            </CardContent>
-         </Card>
-      </div>
+      <CrudListContext.Provider value={contextValue}>
+         <FWDataTable
+            fields={fields}
+            route={model.route}
+            onRefreshTable={onRefreshTable}
+         />
+         {children}
+      </CrudListContext.Provider>
    )
 }
 
-export { CrudList }
-export type { onRefreshTable }
+const useCrudList = () => {
+   const context = useContext(CrudListContext)
+   if (!context) {
+      throw new Error('useCrudList must be used within a CrudListProvider')
+   }
+   return context
+}
+
+export { CrudList, useCrudList }

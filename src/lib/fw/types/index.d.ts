@@ -220,21 +220,9 @@ export interface Fields {
    [k: string]: Field
 }
 
-interface Tab {
-   label: string
-   route: string
-   settings: Settings
-   fields: Fields
-}
-
-interface Tabs {
-   [k: string]: Tab
-}
-
 export interface ModelConfig {
    label: string
    route: string
    settings: Settings
    fields: Fields
-   tabs: Tabs
 }

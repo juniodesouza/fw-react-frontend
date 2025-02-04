@@ -1,16 +1,12 @@
 import { z } from 'zod'
 import { useContext, useEffect, useState, createContext, useRef } from 'react'
-import { Card, CardContent } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useNavigate } from 'react-router-dom'
 import { BooleanConfig, Fields, ModelConfig } from '../../types'
 import { CrudForm } from './crud-form'
 import { UseFormReturn } from 'react-hook-form'
-// import { Button } from '@/components/ui/button'
 
 type CrudEditContextProps =
    | {
-        setDescription: (description: string) => void
         watch: (field: string, callback: (value: any) => void) => void
         getValues: () => { [key: string]: any }
         setValue: (field: string, value: any) => void
@@ -39,7 +35,6 @@ const CrudEdit = ({ children, model }: CrudEditInput) => {
    const afterSaveRef = useRef<() => Promise<boolean>>()
 
    const [isSending, setIsSending] = useState(false)
-   const [description, setDescription] = useState<string | ''>('')
 
    const fields = model.fields
    const formFields: Fields = {}
@@ -152,7 +147,6 @@ const CrudEdit = ({ children, model }: CrudEditInput) => {
    }, [formInstanceRef.current])
 
    const contextValue: CrudEditContextProps = {
-      setDescription,
       watch,
       getValues,
       setValue,
@@ -163,52 +157,14 @@ const CrudEdit = ({ children, model }: CrudEditInput) => {
 
    return (
       <CrudEditContext.Provider value={contextValue}>
-         <div className="space-y-4 pt-6">
-            <div className="flex items-end gap-2 align-middle">
-               <div className="flex-1">
-                  <h1 className="text-3xl font-bold">{model.label}</h1>
-                  {description && (
-                     <p className="text-sm italic text-muted-foreground">
-                        {description}
-                     </p>
-                  )}
-               </div>
-               {/* <Button variant="outline" size="sm" className="px-4">
-               Exportar
-            </Button> */}
-            </div>
-            <div>
-               <Tabs defaultValue="account" className="">
-                  <TabsList className="w-full justify-start">
-                     <TabsTrigger className="px-5" value="account">
-                        Informações
-                     </TabsTrigger>
-                     <TabsTrigger className="px-5" value="password">
-                        Revisões
-                     </TabsTrigger>
-                     <TabsTrigger className="px-5" value="cenarios">
-                        Cenários
-                     </TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="account">
-                     <Card className="rounded-xl">
-                        <CardContent className="pt-6">
-                           <CrudForm
-                              fields={formFields}
-                              defaultValues={defaultValues}
-                              onSubmit={onSubmit}
-                              onCancel={onCancel}
-                              isSending={isSending}
-                              formRef={setFormInstance}
-                           />
-                        </CardContent>
-                     </Card>
-                  </TabsContent>
-                  <TabsContent value="password">Revisões</TabsContent>
-                  <TabsContent value="cenarios">Cenários</TabsContent>
-               </Tabs>
-            </div>
-         </div>
+         <CrudForm
+            fields={formFields}
+            defaultValues={defaultValues}
+            onSubmit={onSubmit}
+            onCancel={onCancel}
+            isSending={isSending}
+            formRef={setFormInstance}
+         />
          {children}
       </CrudEditContext.Provider>
    )
