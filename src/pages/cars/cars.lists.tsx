@@ -1,17 +1,18 @@
-import { CrudLayout, CrudList, useCrudLayout, useCrudList } from '@/lib/fw'
+import { CrudListPage, useCrudList, useCrudLayout } from '@/lib/fw'
 import CarroModel from './cars.model'
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 
 export function CarsListComponent() {
    const { setDescription } = useCrudLayout()
-
    const { refreshTable } = useCrudList()
 
-   useEffect(() => {
+   useLayoutEffect(() => {
       setDescription(
          'Esta tela contém informações detalhadas sobre os carros da empresa'
       )
+   }, [])
 
+   useEffect(() => {
       refreshTable((table) => {
          console.log(table.data)
       })
@@ -22,10 +23,8 @@ export function CarsListComponent() {
 
 export function CarsList() {
    return (
-      <CrudLayout title={CarroModel.label}>
-         <CrudList model={CarroModel}>
-            <CarsListComponent />
-         </CrudList>
-      </CrudLayout>
+      <CrudListPage model={CarroModel}>
+         <CarsListComponent />
+      </CrudListPage>
    )
 }

@@ -1,4 +1,3 @@
-// import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { createContext, useContext, useState } from 'react'
 
@@ -13,9 +12,10 @@ const CrudLayoutContext = createContext<CrudLayoutContextProps>(undefined)
 interface CrudLayoutProps {
    children: React.ReactNode
    title: string
+   actions?: JSX.Element
 }
 
-const CrudLayout = ({ children, title }: CrudLayoutProps) => {
+const CrudLayout = ({ children, title, actions }: CrudLayoutProps) => {
    const [description, setDescription] = useState<string | ''>('')
 
    const contextValue: CrudLayoutContextProps = {
@@ -34,9 +34,7 @@ const CrudLayout = ({ children, title }: CrudLayoutProps) => {
                      </p>
                   )}
                </div>
-               {/* <Button variant="outline" size="sm" className="px-4">
-                  Exportar
-               </Button> */}
+               <div>{actions}</div>
             </div>
             <Card className="rounded-xl">
                <CardContent className="pt-6">{children}</CardContent>

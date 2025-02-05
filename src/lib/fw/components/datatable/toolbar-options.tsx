@@ -6,12 +6,12 @@ import {
    Dialog,
    DialogContent,
    DialogDescription,
-   DialogFooter,
+   // DialogFooter,
    DialogHeader,
    DialogTitle,
    DialogTrigger,
 } from '@/components/ui/dialog'
-import { DialogClose } from '@radix-ui/react-dialog'
+// import { DialogClose } from '@radix-ui/react-dialog'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'

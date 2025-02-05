@@ -20,10 +20,6 @@ const CrudList = ({ children, model }: CrudListInput) => {
 
    const refreshTableRef = useRef<onRefreshTable>()
 
-   //    <Button size="sm" className="px-4" asChild>
-   //    <Link to={`/app/${model.route}/create`}>Novo registro</Link>
-   // </Button>
-
    const refreshTable = (callback: onRefreshTable) => {
       refreshTableRef.current = callback
    }

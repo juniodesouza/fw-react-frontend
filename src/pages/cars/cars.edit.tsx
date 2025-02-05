@@ -1,6 +1,6 @@
-import { CrudEdit, CrudLayout, useCrudEdit, useCrudLayout } from '@/lib/fw'
+import { CrudEditPage, useCrudEdit, useCrudLayout } from '@/lib/fw'
 import CarroModel from './cars.model'
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 
 // Remove the required fields
 // Object.keys(CarroModel.fields).forEach((key: any) => {
@@ -11,31 +11,41 @@ import { useEffect } from 'react'
 const CarsEditComponent = () => {
    const { setDescription } = useCrudLayout()
 
-   const { watch, getValues, setValue, getValue, beforeSave, afterSave } =
-      useCrudEdit()
+   const {
+      onFieldChange,
+      getValues,
+      setValue,
+      getValue,
+      onBeforeSave,
+      onAfterSave,
+      onCreateInit,
+      onEditInit,
+   } = useCrudEdit()
+
+   useLayoutEffect(() => {
+      setDescription('Para o cadastramento de novos carros, use esta tela.')
+   }, [])
 
    useEffect(() => {
-      setDescription('Para o cadastramento de novos carros, use esta tela.')
-
-      watch('code', () => {
+      onFieldChange('code', () => {
          const data = getValues()
          console.log(data)
       })
 
-      watch('name', (value) => {
+      onFieldChange('name', (value) => {
          console.log('name:' + value)
       })
 
-      watch('email', (value) => {
+      onFieldChange('email', (value) => {
          setValue('description', value)
       })
 
-      watch('cnpj', () => {
+      onFieldChange('cnpj', () => {
          const value = getValue('cnpj')
          console.log('cnpj:' + value)
       })
 
-      beforeSave(async () => {
+      onBeforeSave(async () => {
          console.log('beforeSave')
 
          await new Promise((resolve) => {
@@ -47,7 +57,7 @@ const CarsEditComponent = () => {
          return true
       })
 
-      afterSave(async () => {
+      onAfterSave(async () => {
          console.log('afterSave')
 
          await new Promise((resolve) => {
@@ -58,6 +68,16 @@ const CarsEditComponent = () => {
 
          return true
       })
+
+      onCreateInit(() => {
+         console.log('onCreateInit')
+         setValue('saleDate', new Date())
+      })
+
+      onEditInit(() => {
+         console.log('onEditInit')
+         setValue('saleDate', new Date())
+      })
    }, [])
 
    return null
@@ -65,10 +85,8 @@ const CarsEditComponent = () => {
 
 export function CarsEdit() {
    return (
-      <CrudLayout title={CarroModel.label}>
-         <CrudEdit model={CarroModel}>
-            <CarsEditComponent />
-         </CrudEdit>
-      </CrudLayout>
+      <CrudEditPage model={CarroModel}>
+         <CarsEditComponent />
+      </CrudEditPage>
    )
 }
