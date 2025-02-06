@@ -1,5 +1,5 @@
 import { CrudEditPage, useCrudEdit, useCrudLayout } from '@/lib/fw'
-import CarroModel from './cars.model'
+import { CarroModel, CarroModelConfig } from './cars.model'
 import { useEffect, useLayoutEffect } from 'react'
 
 // Remove the required fields
@@ -20,7 +20,7 @@ const CarsEditComponent = () => {
       onAfterSave,
       onCreateInit,
       onEditInit,
-   } = useCrudEdit()
+   } = useCrudEdit<CarroModelConfig>()
 
    useLayoutEffect(() => {
       setDescription('Para o cadastramento de novos carros, use esta tela.')

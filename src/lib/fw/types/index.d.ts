@@ -16,6 +16,10 @@ type FieldTypes =
    | 'file'
 
 interface FieldConfig {
+   edit: boolean
+   list: boolean
+   filter?: boolean
+   show?: boolean
    size?: FieldSizes
    filter?: boolean
    disabled?: boolean
@@ -124,9 +128,6 @@ type ConfigTypes =
 interface BaseField {
    label: string
    type: FieldTypes
-   edit: boolean
-   list: boolean
-   filter?: boolean
    config: ConfigTypes
 }
 

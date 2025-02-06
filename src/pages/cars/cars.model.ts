@@ -1,6 +1,30 @@
-import { ModelConfig } from '@/lib/fw'
+import { Field, ModelConfig } from '@/lib/fw'
 
-const CarroModel: ModelConfig = {
+export interface CarroModelConfig extends ModelConfig {
+   fields: {
+      code: Field
+      name: Field
+      email: Field
+      status: Field
+      cnpj: Field
+      cpf: Field
+      phone: Field
+      cep: Field
+      placa: Field
+      month: Field
+      saleDate: Field
+      time: Field
+      size: Field
+      price: Field
+      password: Field
+      brand: Field
+      file: Field
+      description: Field
+      content: Field
+   }
+}
+
+export const CarroModel = {
    label: 'Carros',
    route: 'cars',
    settings: {
@@ -13,9 +37,9 @@ const CarroModel: ModelConfig = {
       code: {
          label: 'Number',
          type: 'number',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 2,
             require: true,
             max: 10,
@@ -29,9 +53,9 @@ const CarroModel: ModelConfig = {
       name: {
          label: 'String',
          type: 'string',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 4,
             require: true,
             placeholder: 'Informe o nome completo',
@@ -42,9 +66,9 @@ const CarroModel: ModelConfig = {
       email: {
          label: 'E-mail',
          type: 'string',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 5,
             require: true,
             email: true,
@@ -56,9 +80,9 @@ const CarroModel: ModelConfig = {
       status: {
          label: 'Boolean',
          type: 'boolean',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 1,
             // labelTrue: 'Ativo',
             // labelFalse: 'Inativo',
@@ -70,9 +94,9 @@ const CarroModel: ModelConfig = {
       cnpj: {
          label: 'CNPJ',
          type: 'string',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 3,
             require: true,
             cnpj: true,
@@ -83,9 +107,9 @@ const CarroModel: ModelConfig = {
       cpf: {
          label: 'CPF',
          type: 'string',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 3,
             require: true,
             cpf: true,
@@ -96,9 +120,9 @@ const CarroModel: ModelConfig = {
       phone: {
          label: 'Phone',
          type: 'string',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 3,
             require: true,
             phone: true,
@@ -109,9 +133,9 @@ const CarroModel: ModelConfig = {
       cep: {
          label: 'Cep',
          type: 'string',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 3,
             require: true,
             cep: true,
@@ -122,9 +146,9 @@ const CarroModel: ModelConfig = {
       placa: {
          label: 'Placa - CustomMask',
          type: 'string',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 12,
             require: true,
             customMask: 'aaa-9999',
@@ -135,9 +159,9 @@ const CarroModel: ModelConfig = {
       month: {
          label: 'List',
          type: 'select',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             placeholder: 'Selecione o mês',
             size: 4,
             require: true,
@@ -162,9 +186,9 @@ const CarroModel: ModelConfig = {
       saleDate: {
          label: 'Date',
          type: 'date',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 2,
             // disabled: true,
             placeholder: 'Informe a data',
@@ -176,9 +200,9 @@ const CarroModel: ModelConfig = {
       time: {
          label: 'Time',
          type: 'time',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 2,
             require: true,
          },
@@ -188,9 +212,9 @@ const CarroModel: ModelConfig = {
       size: {
          label: 'Float',
          type: 'float',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 2,
             require: true,
             decimalPlaces: 2,
@@ -201,9 +225,9 @@ const CarroModel: ModelConfig = {
       price: {
          label: 'Currency',
          type: 'currency',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 2,
             require: true,
          },
@@ -213,9 +237,9 @@ const CarroModel: ModelConfig = {
       password: {
          label: 'Password',
          type: 'password',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 3,
             require: true,
             placeholder: 'Informe a senha',
@@ -226,9 +250,9 @@ const CarroModel: ModelConfig = {
       brand: {
          label: 'Autocomplete',
          type: 'autocomplete',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 4,
             require: true,
             route: 'brands',
@@ -240,9 +264,9 @@ const CarroModel: ModelConfig = {
       file: {
          label: 'Upload',
          type: 'file',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 5,
             require: true,
             container: 'anexos',
@@ -256,9 +280,9 @@ const CarroModel: ModelConfig = {
       description: {
          label: 'Textarea',
          type: 'textarea',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 12,
             require: true,
             placeholder: 'Informe a descrição',
@@ -269,15 +293,13 @@ const CarroModel: ModelConfig = {
       content: {
          label: 'Texteditor',
          type: 'texteditor',
-         edit: true,
-         list: true,
          config: {
+            edit: true,
+            list: true,
             size: 12,
             require: true,
             placeholder: 'Informe o conteúdo',
          },
       },
    },
-}
-
-export default CarroModel
+} as CarroModelConfig

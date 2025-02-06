@@ -1,5 +1,5 @@
 import { CrudListPage, useCrudList, useCrudLayout } from '@/lib/fw'
-import CarroModel from './cars.model'
+import { CarroModel } from './cars.model'
 import { useEffect, useLayoutEffect } from 'react'
 
 export function CarsListComponent() {

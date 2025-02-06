@@ -29,7 +29,7 @@ const FWDataTableContent = ({ fields }: FWDataTableContentInput) => {
             <TableHeader>
                <TableRow className="bg-muted/40">
                   {Object.keys(fields).map((key, idx) => {
-                     if (fields[key].list) {
+                     if (fields[key].config.list) {
                         return (
                            <TableHead key={idx}>{fields[key].label}</TableHead>
                         )
@@ -42,7 +42,7 @@ const FWDataTableContent = ({ fields }: FWDataTableContentInput) => {
                   ? Array(5).map((_, index) => (
                        <TableRow key={index} className="even:bg-muted/40">
                           {Object.keys(fields).map((key, idx) => {
-                             if (fields[key].list) {
+                             if (fields[key].config.list) {
                                 return (
                                    <TableCell key={idx}>
                                       <Skeleton className="w-100 h-4" />
@@ -55,7 +55,7 @@ const FWDataTableContent = ({ fields }: FWDataTableContentInput) => {
                   : data.map((_, index) => (
                        <TableRow key={index} className="even:bg-muted/40">
                           {Object.keys(fields).map((key, idx) => {
-                             if (fields[key].list) {
+                             if (fields[key].config.list) {
                                 return (
                                    <TableCell key={idx}>
                                       {data[index][key]}

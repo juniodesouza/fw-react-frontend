@@ -4,12 +4,15 @@ import { BooleanConfig, Fields, ModelConfig } from '../../types'
 import { CrudForm } from './crud-form'
 import { UseFormReturn } from 'react-hook-form'
 
-type CrudEditContextProps =
+type CrudEditContextProps<T extends ModelConfig> =
    | {
-        onFieldChange: (field: string, callback: (value: any) => void) => void
-        getValues: () => { [key: string]: any }
-        setValue: (field: string, value: any) => void
-        getValue: (field: string) => any
+        onFieldChange: <K extends keyof T['fields']>(
+           field: K,
+           callback: (value: any) => void
+        ) => void
+        getValues: <K extends keyof T['fields']>() => Record<K, any>
+        setValue: <K extends keyof T['fields']>(field: K, value: any) => void
+        getValue: <K extends keyof T['fields']>(field: K) => any
         onBeforeSave: (callback: () => Promise<boolean>) => void
         onAfterSave: (callback: () => Promise<boolean>) => void
         onCreateInit: (callback: () => void) => void
@@ -18,16 +21,21 @@ type CrudEditContextProps =
      }
    | undefined
 
-const CrudEditContext = createContext<CrudEditContextProps>(undefined)
+const CrudEditContext = createContext<CrudEditContextProps<any>>(undefined)
 
-interface CrudEditInput {
+interface CrudEditInput<T extends ModelConfig> {
    children: React.ReactNode
-   model: ModelConfig
+   model: T
    id?: string
    onCancel?: () => void
 }
 
-const CrudEdit = ({ children, model, id, onCancel }: CrudEditInput) => {
+const CrudEdit = <T extends ModelConfig>({
+   children,
+   model,
+   id,
+   onCancel,
+}: CrudEditInput<T>) => {
    const watchers = useRef<{ [key: string]: (value: any) => void }>({})
    const formInstanceRef = useRef<UseFormReturn | null>(null)
    const onBeforeSaveRef = useRef<() => Promise<boolean>>()
@@ -37,8 +45,7 @@ const CrudEdit = ({ children, model, id, onCancel }: CrudEditInput) => {
 
    const [isSending, setIsSending] = useState<boolean>(false)
 
-   const fields = model.fields
-   const formFields: Fields = {}
+   const fields = structuredClone(model.fields)
    const defaultValues: { [key: string]: any } = {}
    Object.keys(fields).forEach((key: keyof Fields) => {
       const field = fields[key]
@@ -50,9 +57,7 @@ const CrudEdit = ({ children, model, id, onCancel }: CrudEditInput) => {
          defaultValues[key] = ''
       }
 
-      if (field.edit) {
-         formFields[key] = field
-      }
+      field.config.show = field.config.edit
    })
 
    async function onSubmit(data: z.infer<z.ZodObject<any, any>>) {
@@ -84,34 +89,41 @@ const CrudEdit = ({ children, model, id, onCancel }: CrudEditInput) => {
       }
    }
 
-   function onFieldChange(field: string, callback: (value: any) => void): void {
+   function onFieldChange<K extends keyof T['fields']>(
+      field: K,
+      callback: (value: any) => void
+   ): void {
       if (field in fields) {
-         watchers.current[field] = callback
+         watchers.current[field as string] = callback
       } else {
-         throw new Error(`watch: Field ${field} not found in model`)
+         throw new Error(`watch: Field ${field as string} not found in model`)
       }
    }
 
-   function getValues() {
+   function getValues<K extends keyof T['fields']>(): Record<K, any> {
       const formInstance = getFormInstance()
-      return formInstance?.getValues() || {}
+      return (formInstance?.getValues() || {}) as Record<K, any>
    }
 
-   function setValue(field: string, value: any) {
+   function setValue<K extends keyof T['fields']>(field: K, value: any) {
       if (field in fields) {
          const formInstance = getFormInstance()
-         formInstance?.setValue(field, value)
+         formInstance?.setValue(field as string, value)
       } else {
-         throw new Error(`setValue: Field ${field} not found in model`)
+         throw new Error(
+            `setValue: Field ${field as string} not found in model`
+         )
       }
    }
 
-   function getValue(field: string) {
+   function getValue<K extends keyof T['fields']>(field: K) {
       if (field in fields) {
          const formInstance = getFormInstance()
-         return formInstance?.getValues(field)
+         return formInstance?.getValues(field as string)
       } else {
-         throw new Error(`getValue: Field ${field} not found in model`)
+         throw new Error(
+            `getValue: Field ${field as string} not found in model`
+         )
       }
    }
 
@@ -161,7 +173,7 @@ const CrudEdit = ({ children, model, id, onCancel }: CrudEditInput) => {
       }
    }, [])
 
-   const contextValue: CrudEditContextProps = {
+   const contextValue: CrudEditContextProps<T> = {
       onFieldChange,
       getValues,
       setValue,
@@ -175,7 +187,7 @@ const CrudEdit = ({ children, model, id, onCancel }: CrudEditInput) => {
    return (
       <CrudEditContext.Provider value={contextValue}>
          <CrudForm
-            fields={formFields}
+            fields={fields}
             defaultValues={defaultValues}
             onSubmit={onSubmit}
             onCancel={onCancel}
@@ -187,8 +199,8 @@ const CrudEdit = ({ children, model, id, onCancel }: CrudEditInput) => {
    )
 }
 
-const useCrudEdit = () => {
-   const context = useContext(CrudEditContext)
+const useCrudEdit = <T extends ModelConfig>() => {
+   const context = useContext(CrudEditContext) as CrudEditContextProps<T>
    if (!context) {
       throw new Error('useCrudEdit must be used within a CrudEditProvider')
    }
