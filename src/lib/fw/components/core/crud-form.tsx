@@ -13,7 +13,7 @@ import { useForm, UseFormReturn } from 'react-hook-form'
 import { z } from 'zod'
 import { formValidator } from '../../validators'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 interface CrudFormProps {
    fields: Fields
@@ -32,9 +32,7 @@ const CrudForm = ({
    onCancel,
    formRef,
 }: CrudFormProps) => {
-   const [formFields, setFormFields] = useState(fields)
-
-   const formSchema = z.object(formValidator(formFields))
+   const formSchema = z.object(formValidator(fields))
 
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
@@ -47,42 +45,25 @@ const CrudForm = ({
       }
    }, [])
 
-   // const updateFieldProperty = (
-   //    fieldKey: string,
-   //    property: string,
-   //    value: any
-   // ) => {
-   //    setFormFields((prevFields) => ({
-   //       ...prevFields,
-   //       [fieldKey]: {
-   //          ...prevFields[fieldKey],
-   //          config: {
-   //             ...prevFields[fieldKey].config,
-   //             [property]: value,
-   //          },
-   //       },
-   //    }))
-   // }
-
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid grid-cols-12 gap-4">
-               {Object.keys(formFields).map(function (key, idx) {
+               {Object.keys(fields).map(function (key, idx) {
                   return (
-                     formFields[key].config.show && (
+                     fields[key].config.show && (
                         <FormField
                            key={idx}
                            control={form.control}
                            name={key}
                            render={({ field }) => (
                               <FormItem
-                                 className={`col-span-12 space-y-0 sm:col-span-${formFields[key]?.config.size || '4'}`}
+                                 className={`col-span-12 space-y-0 sm:col-span-${fields[key]?.config.size || '4'}`}
                               >
-                                 <FormLabel>{formFields[key].label}</FormLabel>
+                                 <FormLabel>{fields[key].label}</FormLabel>
                                  <CrudInput
                                     id={key}
-                                    field={formFields[key]}
+                                    field={fields[key]}
                                     props={field}
                                  />
                                  <FormMessage />

@@ -1,4 +1,9 @@
-import { CrudEditPage, useCrudEdit, useCrudLayout } from '@/lib/fw'
+import {
+   CrudEditPage,
+   StringConfig,
+   useCrudEdit,
+   useCrudLayout,
+} from '@/lib/fw'
 import { CarroModel, CarroModelConfig } from './cars.model'
 import { useEffect, useLayoutEffect } from 'react'
 
@@ -12,6 +17,7 @@ const CarsEditComponent = () => {
    const { setDescription } = useCrudLayout()
 
    const {
+      getFormType,
       onFieldChange,
       getValues,
       setValue,
@@ -20,10 +26,25 @@ const CarsEditComponent = () => {
       onAfterSave,
       onCreateInit,
       onEditInit,
+      setFieldLabel,
+      setFieldVisibility,
+      setFieldConfig,
    } = useCrudEdit<CarroModelConfig>()
 
    useLayoutEffect(() => {
+      console.log(getFormType())
+
       setDescription('Para o cadastramento de novos carros, use esta tela.')
+
+      setFieldLabel('name', 'Nome completo do usuário')
+
+      setFieldVisibility('code', true)
+
+      setFieldConfig('code', { size: 12 })
+      setFieldConfig('code', { disabled: true })
+      setFieldConfig('name', { size: 12 })
+
+      setFieldConfig<'cnpj', StringConfig>('cnpj', { cnpj: false })
    }, [])
 
    useEffect(() => {

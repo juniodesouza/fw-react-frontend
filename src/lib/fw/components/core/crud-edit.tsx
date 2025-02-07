@@ -1,15 +1,14 @@
 import { z } from 'zod'
 import { useContext, useEffect, useState, createContext, useRef } from 'react'
-import { BooleanConfig, Fields, ModelConfig } from '../../types'
+import { BooleanConfig, FieldConfig, Fields, ModelConfig } from '../../types'
 import { CrudForm } from './crud-form'
 import { UseFormReturn } from 'react-hook-form'
 
+type formType = 'create' | 'edit'
+
 type CrudEditContextProps<T extends ModelConfig> =
    | {
-        onFieldChange: <K extends keyof T['fields']>(
-           field: K,
-           callback: (value: any) => void
-        ) => void
+        getFormType: () => formType
         getValues: <K extends keyof T['fields']>() => Record<K, any>
         setValue: <K extends keyof T['fields']>(field: K, value: any) => void
         getValue: <K extends keyof T['fields']>(field: K) => any
@@ -17,7 +16,25 @@ type CrudEditContextProps<T extends ModelConfig> =
         onAfterSave: (callback: () => Promise<boolean>) => void
         onCreateInit: (callback: () => void) => void
         onEditInit: (callback: () => void) => void
-        // autoCompleteSelect
+        onFieldChange: <K extends keyof T['fields']>(
+           field: K,
+           callback: (value: any) => void
+        ) => void
+        setFieldVisibility: <K extends keyof T['fields']>(
+           field: K,
+           value: boolean
+        ) => void
+        setFieldLabel: <K extends keyof T['fields']>(
+           field: K,
+           value: string
+        ) => void
+        setFieldConfig: <
+           K extends keyof T['fields'] = keyof T['fields'],
+           C extends FieldConfig = T['fields'][K]['config'],
+        >(
+           field: K,
+           config: Partial<C>
+        ) => void
      }
    | undefined
 
@@ -45,13 +62,13 @@ const CrudEdit = <T extends ModelConfig>({
 
    const [isSending, setIsSending] = useState<boolean>(false)
 
-   const fields = structuredClone(model.fields)
+   const formFields = structuredClone(model.fields)
    const defaultValues: { [key: string]: any } = {}
-   Object.keys(fields).forEach((key: keyof Fields) => {
-      const field = fields[key]
+   Object.keys(formFields).forEach((key: keyof Fields) => {
+      const field = formFields[key]
 
       if (field.type === 'boolean') {
-         const booleanConfig = fields[key].config as BooleanConfig
+         const booleanConfig = formFields[key].config as BooleanConfig
          defaultValues[key] = booleanConfig.default
       } else {
          defaultValues[key] = ''
@@ -59,6 +76,8 @@ const CrudEdit = <T extends ModelConfig>({
 
       field.config.show = field.config.edit
    })
+
+   const [fields, setFields] = useState<Fields>(formFields)
 
    async function onSubmit(data: z.infer<z.ZodObject<any, any>>) {
       setIsSending(true)
@@ -86,17 +105,6 @@ const CrudEdit = <T extends ModelConfig>({
 
       if (onCancel) {
          onCancel
-      }
-   }
-
-   function onFieldChange<K extends keyof T['fields']>(
-      field: K,
-      callback: (value: any) => void
-   ): void {
-      if (field in fields) {
-         watchers.current[field as string] = callback
-      } else {
-         throw new Error(`watch: Field ${field as string} not found in model`)
       }
    }
 
@@ -151,6 +159,50 @@ const CrudEdit = <T extends ModelConfig>({
       onEditInitRef.current = callback
    }
 
+   function onFieldChange<K extends keyof T['fields']>(
+      field: K,
+      callback: (value: any) => void
+   ): void {
+      if (field in fields) {
+         watchers.current[field as string] = callback
+      } else {
+         throw new Error(`watch: Field ${field as string} not found in model`)
+      }
+   }
+
+   function setFieldVisibility<K extends keyof T['fields']>(
+      field: K,
+      value: boolean
+   ) {
+      setFields((prevFields: Fields) => {
+         const newFields = { ...prevFields }
+         newFields[field].config.show = value
+         return newFields
+      })
+   }
+
+   function setFieldLabel<K extends keyof T['fields']>(
+      field: K,
+      value: string
+   ) {
+      setFields((prevFields) => {
+         const newFields = { ...prevFields }
+         newFields[field].label = value
+         return newFields
+      })
+   }
+
+   function setFieldConfig<
+      K extends keyof T['fields'] = keyof T['fields'],
+      C extends FieldConfig = T['fields'][K]['config'],
+   >(field: K, config: Partial<C>) {
+      setFields((prevFields) => {
+         const newFields = { ...prevFields }
+         newFields[field].config = { ...newFields[field].config, ...config }
+         return newFields
+      })
+   }
+
    useEffect(() => {
       const formInstance = getFormInstance()
 
@@ -174,7 +226,7 @@ const CrudEdit = <T extends ModelConfig>({
    }, [])
 
    const contextValue: CrudEditContextProps<T> = {
-      onFieldChange,
+      getFormType: () => (id ? 'edit' : 'create'),
       getValues,
       setValue,
       getValue,
@@ -182,6 +234,10 @@ const CrudEdit = <T extends ModelConfig>({
       onAfterSave,
       onCreateInit,
       onEditInit,
+      onFieldChange,
+      setFieldVisibility,
+      setFieldLabel,
+      setFieldConfig,
    }
 
    return (
