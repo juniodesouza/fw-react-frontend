@@ -29,8 +29,8 @@ type CrudEditContextProps<T extends ModelConfig> =
            value: string
         ) => void
         setFieldConfig: <
+           C extends FieldConfig = FieldConfig,
            K extends keyof T['fields'] = keyof T['fields'],
-           C extends FieldConfig = T['fields'][K]['config'],
         >(
            field: K,
            config: Partial<C>
@@ -193,8 +193,8 @@ const CrudEdit = <T extends ModelConfig>({
    }
 
    function setFieldConfig<
+      C extends FieldConfig = FieldConfig,
       K extends keyof T['fields'] = keyof T['fields'],
-      C extends FieldConfig = T['fields'][K]['config'],
    >(field: K, config: Partial<C>) {
       setFields((prevFields) => {
          const newFields = { ...prevFields }

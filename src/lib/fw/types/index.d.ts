@@ -21,7 +21,6 @@ interface FieldConfig {
    filter?: boolean
    show?: boolean
    size?: FieldSizes
-   filter?: boolean
    disabled?: boolean
 }
 

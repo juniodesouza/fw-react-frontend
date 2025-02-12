@@ -44,7 +44,7 @@ const CarsEditComponent = () => {
       setFieldConfig('code', { disabled: true })
       setFieldConfig('name', { size: 12 })
 
-      setFieldConfig<'cnpj', StringConfig>('cnpj', { cnpj: false })
+      setFieldConfig<StringConfig>('cnpj', { cnpj: false })
    }, [])
 
    useEffect(() => {
