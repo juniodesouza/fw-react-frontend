@@ -29,8 +29,8 @@ type CrudEditContextProps<T extends ModelConfig> =
            value: string
         ) => void
         setFieldConfig: <
-           C extends FieldConfig = FieldConfig,
-           K extends keyof T['fields'] = keyof T['fields'],
+           K extends keyof T['fields'],
+           C = T['fields'][K]['config'],
         >(
            field: K,
            config: Partial<C>

@@ -1,26 +1,41 @@
-import { Field, ModelConfig } from '@/lib/fw'
+import {
+   FieldAutocomplete,
+   FieldBoolean,
+   FieldCurrency,
+   FieldDate,
+   FieldFile,
+   FieldFloat,
+   FieldNumber,
+   FieldPassword,
+   FieldSelect,
+   FieldString,
+   FieldTextarea,
+   FieldTextEditor,
+   FieldTime,
+   ModelConfig,
+} from '@/lib/fw'
 
 export interface CarroModelConfig extends ModelConfig {
    fields: {
-      code: Field
-      name: Field
-      email: Field
-      status: Field
-      cnpj: Field
-      cpf: Field
-      phone: Field
-      cep: Field
-      placa: Field
-      month: Field
-      saleDate: Field
-      time: Field
-      size: Field
-      price: Field
-      password: Field
-      brand: Field
-      file: Field
-      description: Field
-      content: Field
+      code: FieldNumber
+      name: FieldString
+      email: FieldString
+      status: FieldBoolean
+      cnpj: FieldString
+      cpf: FieldString
+      phone: FieldString
+      cep: FieldString
+      placa: FieldString
+      month: FieldSelect
+      saleDate: FieldDate
+      time: FieldTime
+      size: FieldFloat
+      price: FieldCurrency
+      password: FieldPassword
+      brand: FieldAutocomplete
+      file: FieldFile
+      description: FieldTextarea
+      content: FieldTextEditor
    }
 }
 
